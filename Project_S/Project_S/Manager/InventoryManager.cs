@@ -15,9 +15,9 @@ namespace Project_S
             return Inst ??= new InventoryManager();
         }
 
-        public void Run()
+        public bool Init()
         {
-
+            return true;
         }
     }
 }

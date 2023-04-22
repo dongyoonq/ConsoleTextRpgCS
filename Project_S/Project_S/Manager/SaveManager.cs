@@ -13,9 +13,9 @@ namespace Project_S
             return Inst ??= new SaveManager();
         }
 
-        public void Run()
+        public bool Init()
         {
-
+            return true;
         }
     }
 }

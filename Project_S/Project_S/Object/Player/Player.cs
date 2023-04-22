@@ -21,9 +21,9 @@ namespace Project_S
         public int health = 600; // 체력
         public int mana = 30; // 마나
 
+        public Status status;
         public Job job = Job.None; // 직업
         public List<Skill> skills; // 스킬
-        public Status status;
         public Inventory inventory;
 
         public Player()
@@ -56,6 +56,32 @@ namespace Project_S
         public void LevelUp()
         {
 
+        }
+
+
+        public static void OnKeyPressed(char key)
+        {
+            switch (key)
+            {
+                case 'a':
+                    Console.WriteLine($"Player moved left");
+                    //player.MoveLeft();
+                    break;
+                case 'd':
+                    Console.WriteLine($"Player moved Right");
+                    //player.MoveRight();
+                    break;
+                case 'w':
+                    Console.WriteLine($"Player moved Up");
+                    //player.MoveUp();
+                    break;
+                case 's':
+                    Console.WriteLine($"Player moved Down");
+                    //player.MoveDown();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

@@ -15,9 +15,9 @@ namespace Project_S
         }
 
         // 장면 실행 메서드
-        public void Run()
+        public bool Init()
         {
-            // 장면에 필요한 기능을 구현
+            return true;
         }
     }
 }

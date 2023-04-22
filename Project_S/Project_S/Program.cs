@@ -6,7 +6,8 @@ namespace Project_S
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            if(Core.GetInstance().Init())
+                Core.GetInstance().Run();
         }
     }
 }

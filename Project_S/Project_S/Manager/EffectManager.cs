@@ -4,12 +4,12 @@ using System.Text;
 
 namespace Project_S
 {
-    public class QuestManager
+    public class EffectManager
     {
-        private static QuestManager Inst;
-        public static QuestManager GetInstance()
+        private static EffectManager Inst;
+        public static EffectManager GetInstance()
         {
-            return Inst ??= new QuestManager();
+            return Inst ??= new EffectManager();
         }
 
         public bool Init()

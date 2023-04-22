@@ -15,9 +15,10 @@ namespace Project_S
             return Inst ??= new EventManager();
         }
 
-        public void Run()
+        public bool Init()
         {
-
+            InputManager.GetInstance().KeyPressed += Player.OnKeyPressed;
+            return true;
         }
     }
 }

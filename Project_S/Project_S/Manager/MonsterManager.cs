@@ -15,9 +15,9 @@ namespace Project_S
             return Inst ??= new MonsterManager();
         }
 
-        public void Run()
+        public bool Init()
         {
-
+            return true;
         }
     }
 }

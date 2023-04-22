@@ -15,9 +15,9 @@ namespace Project_S
             return Inst ??= new ItemManager();
         }
 
-        public void Run()
+        public bool Init()
         {
-
+            return true;
         }
     }
 }
