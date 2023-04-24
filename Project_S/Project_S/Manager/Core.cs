@@ -10,7 +10,6 @@ namespace Project_S
         public static Core GetInstance()
         {
             return Inst ??= new Core();
-
         }
 
         public bool Init()

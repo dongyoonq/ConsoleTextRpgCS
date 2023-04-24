@@ -58,7 +58,7 @@ namespace Project_S
 
         }
 
-
+        // 플레이어 콘솔 입력 이벤트 핸들러
         public static void OnKeyPressed(char key)
         {
             switch (key)

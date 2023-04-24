@@ -6,6 +6,7 @@ namespace Project_S
 {
     public class InputManager
     {
+        // KeyPressed라는 이벤트를 정의
         public event Action<char> KeyPressed;
 
         private static InputManager Inst;
