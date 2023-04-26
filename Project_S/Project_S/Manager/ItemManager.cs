@@ -6,7 +6,7 @@ namespace Project_S
 {
     public class ItemManager
     {
-        private List<Item> items;
+        public Dictionary<string, Item> itemTable;
         private string ItemPrefab;
 
         private static ItemManager Inst;
@@ -17,6 +17,7 @@ namespace Project_S
 
         public bool Init()
         {
+            itemTable = new Dictionary<string, Item>();
             return true;
         }
     }

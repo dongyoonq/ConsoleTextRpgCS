@@ -4,10 +4,8 @@ using System.Text;
 
 namespace Project_S
 {
-    public class Equipment : Item
+    abstract class Armor : Equipment
     {
-        public Equipment(string name) : base(name)
-        {
-        }
+
     }
 }

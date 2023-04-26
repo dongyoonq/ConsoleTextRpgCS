@@ -6,11 +6,11 @@ namespace Project_S
 {
     public class Mage : Player
     {
-        public Mage()
+        public Mage(string name) : base(name)
         {
             job = Job.Mage;
-            health = 950;
-            mana = 160;
+            status.MaxHp = 950;
+            status.MaxMp = 160;
             skills.Add(new FireballSkill());
         }
 

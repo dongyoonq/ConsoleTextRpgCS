@@ -4,8 +4,12 @@ using System.Text;
 
 namespace Project_S
 {
-    public struct Status
+    public class Status
     {
+        public int MaxHp { get; set; }
+        public int MaxMp { get; set; }
+        public int AttackPoint { get; set; }
+        public int Defense { get; set; }
         public int Strength { get; set; }
         public int Dexterity { get; set; }
         public int Intelligence { get; set; }

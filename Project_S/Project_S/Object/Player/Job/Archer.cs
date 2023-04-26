@@ -6,11 +6,11 @@ namespace Project_S
 {
     public class Archer : Player
     {
-        public Archer()
+        public Archer(string name) : base(name)
         {
             job = Job.Archer;
-            health = 1100;
-            mana = 100;
+            status.MaxHp = 1100;
+            status.MaxMp = 100;
             skills.Add(new ExplosiveArrow());
             skills.Add(new TripleShot());
         }

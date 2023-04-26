@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Interface\" />
     <Folder Include="Object\Skill\MonsterSkill\" />
   </ItemGroup>
 

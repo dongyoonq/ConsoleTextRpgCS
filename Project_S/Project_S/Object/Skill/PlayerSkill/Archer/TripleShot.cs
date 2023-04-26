@@ -10,10 +10,10 @@ namespace Project_S
 
         public override void Use(Player player, Monster target)
         {
-            if (player.level >= RequiredLevel && player.mana >= RequiredMana)
+            if (player.level >= RequiredLevel && player.status.MaxMp >= RequiredMana)
             {
                 target.health -= Damage;
-                player.mana -= RequiredMana;
+                player.status.MaxMp -= RequiredLevel;
             }
         }
     }

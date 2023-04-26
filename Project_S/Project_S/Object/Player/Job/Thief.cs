@@ -6,11 +6,11 @@ namespace Project_S
 {
     public class Thief : Player
     {
-        public Thief()
+        public Thief(string name) : base(name)
         {
             job = Job.Thief;
-            health = 1200;
-            mana = 90;
+            status.MaxHp = 1200;
+            status.MaxMp = 90;
         }
 
     }

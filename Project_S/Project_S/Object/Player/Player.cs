@@ -16,18 +16,23 @@ namespace Project_S
     // Player 클래스
     public class Player
     {
-        public string nickname; // 닉네임
-        public int level = 0; // 레벨
-        public int health = 600; // 체력
-        public int mana = 30; // 마나
+        public string nickname;     // 닉네임
+        public int level = 1;       // 레벨
+
+        public Job job = Job.None;  // 직업
 
         public Status status;
-        public Job job = Job.None; // 직업
-        public List<Skill> skills; // 스킬
         public Inventory inventory;
 
-        public Player()
+        public List<Skill> skills;  // 스킬
+
+        public Player(string name)
         {
+            status = new Status();
+            status.MaxHp = 600;
+            status.MaxMp = 30;
+            status.AttackPoint = 50;
+            nickname = name;
         }
 
         // 인벤토리 추가 메서드
@@ -56,6 +61,16 @@ namespace Project_S
         public void LevelUp()
         {
 
+        }
+
+        public void Equip(Equipment equipment)
+        {
+            equipment.ApplyStatusModifier(this);
+        }
+
+        public void UnEquip(Equipment equipment)
+        {
+            equipment.RemoveStatusModifier(this);
         }
 
         // 플레이어 콘솔 입력 이벤트 핸들러

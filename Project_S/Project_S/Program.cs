@@ -6,8 +6,20 @@ namespace Project_S
     {
         static void Main(string[] args)
         {
+            /*
             if(Core.GetInstance().Init())
-                Core.GetInstance().Run();
+                Core.GetInstance().Run();*/
+
+            Core.GetInstance().Init();
+
+            Player player = new Player("newPlayer");
+            Sword sword = new Sword();
+
+            player.Equip(sword);
+
+            Console.WriteLine(player.status.AttackPoint);
+            
+
         }
     }
 }

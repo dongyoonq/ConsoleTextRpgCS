@@ -5,14 +5,17 @@ using System.Text;
 namespace Project_S
 {
     // Item 클래스
-    public class Item
+    public abstract class Item
     {
-        public string name; // 아이템 이름
-
-        // 생성자
-        public Item(string name)
+        public enum ItemType
         {
-            this.name = name;
+            Weapon,
+            Aromor,
+            Portion,
+            Other
         }
+
+        protected string name;
+        abstract public void use();
     }
 }

@@ -10,7 +10,7 @@ namespace Project_S
 
         public override void Attack(Player player)
         {
-            player.health -= damage;
+            player.status.MaxHp -= damage;
         }
 
         public void UseRandomSkill(Player player)

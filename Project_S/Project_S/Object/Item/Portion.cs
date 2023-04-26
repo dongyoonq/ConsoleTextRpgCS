@@ -6,8 +6,9 @@ namespace Project_S
 {
     public class Portion : Item
     {
-        public Portion(string name) : base(name)
+        public override void use()
         {
+            throw new NotImplementedException();
         }
     }
 }
