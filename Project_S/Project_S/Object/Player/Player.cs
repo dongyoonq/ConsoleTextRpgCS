@@ -23,6 +23,7 @@ namespace Project_S
 
         public Status status;
         public Inventory inventory;
+        public Dictionary<Item.ItemType, Equipment> wearingEquip;
 
         public List<Skill> skills;  // 스킬
 
@@ -33,6 +34,8 @@ namespace Project_S
             status.MaxMp = 30;
             status.AttackPoint = 50;
             nickname = name;
+            inventory = new Inventory();
+            wearingEquip = new Dictionary<Item.ItemType, Equipment>();
         }
 
         // 인벤토리 추가 메서드
@@ -63,14 +66,59 @@ namespace Project_S
 
         }
 
+        /// <summary>
+        /// 장비 착용 메서드
+        /// </summary>
+        /// <param name="equipment"></param>
         public void Equip(Equipment equipment)
         {
+            // 들어온 아이템이없으면 빠져나온다.
+            if(equipment == null)
+                return;
+
+            // 들어온 아이템이 인벤토리에 없으면 빠져나온다.
+            if (!inventory.list.Contains(equipment))
+            {
+                Console.WriteLine($"{equipment.name}가 인벤토리에 없습니다.");
+                return;
+            }
+
+            // 들어온 아이템이 그 부위에 착용중이면 장비를 벗는다.
+            if (wearingEquip.ContainsKey(equipment.type))
+                UnEquip(wearingEquip[equipment.type]);
+
+            // 인벤토리에 장비를 지우고
+            inventory.list.Remove(equipment);
+            // 착용한 분위에 이 장비를 착용 시킨다.
+            wearingEquip.Add(equipment.type, equipment);
+            Console.WriteLine($"{equipment.name} 장착");
+            // 그 장비에 대한 스텟 적용
             equipment.ApplyStatusModifier(this);
         }
 
+        /// <summary>
+        /// 장비 벗는 메서드
+        /// </summary>
+        /// <param name="equipment"></param>
         public void UnEquip(Equipment equipment)
         {
-            equipment.RemoveStatusModifier(this);
+            // 들어온 아이템이없으면 빠져나온다.
+            if (equipment == null)
+                return;
+
+            // 착용중인 부위에 아이템이 있으면
+            if (wearingEquip.ContainsKey(equipment.type))
+            {
+                Console.WriteLine($"착용중인 {wearingEquip[equipment.type].name} 벗음");
+                // 인벤토리에 착용중인 장비를 넣어주고
+                inventory.list.Add(wearingEquip[equipment.type]);
+                // 착용중인 장비를 지워준다.
+                wearingEquip.Remove(equipment.type);
+                // 스텟 미적용
+                equipment.RemoveStatusModifier(this);
+            }
+            else
+                Console.WriteLine($"{equipment.type}를 장착하고 있지 않습니다.");
         }
 
         // 플레이어 콘솔 입력 이벤트 핸들러

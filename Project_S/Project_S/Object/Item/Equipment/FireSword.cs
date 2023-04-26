@@ -4,14 +4,14 @@ using System.Text;
 
 namespace Project_S
 {
-    internal class FireSword : Weapon
+    internal class Sword : Weapon
     {
 
-        public FireSword()
+        public Sword()
         {
-            name = "FireSword";
+            name = "Sword";
             type = ItemType.Weapon;
-            attackPoint = 50;
+            attackPoint = 30;
 
             if(!ItemManager.GetInstance().itemTable.ContainsKey(this.name))
                 ItemManager.GetInstance().itemTable.Add(this.name, this);

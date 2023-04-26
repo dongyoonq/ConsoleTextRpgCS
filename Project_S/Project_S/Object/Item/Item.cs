@@ -7,6 +7,8 @@ namespace Project_S
     // Item 클래스
     public abstract class Item
     {
+        public ItemType type;
+
         public enum ItemType
         {
             Weapon,
@@ -15,7 +17,7 @@ namespace Project_S
             Other
         }
 
-        protected string name;
+        public string name;
         abstract public void use();
     }
 }

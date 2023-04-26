@@ -8,5 +8,10 @@ namespace Project_S
     {
         public List<Item> list;
         public int Capacity;
+
+        public Inventory()
+        {
+            this.list = new List<Item>();
+        }
     }
 }
