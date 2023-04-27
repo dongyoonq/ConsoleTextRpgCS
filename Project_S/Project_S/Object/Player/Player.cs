@@ -16,6 +16,11 @@ namespace Project_S
     // Player 클래스
     public class Player
     {
+        // 이벤트 정의
+        public delegate void EquipEventHandler(object sender, Equipment equipment);
+        public static event EquipEventHandler EquipEvent;
+        public static event EquipEventHandler UnEquipEvent;
+
         public string nickname;     // 닉네임
         public int level = 1;       // 레벨
 
@@ -71,83 +76,24 @@ namespace Project_S
         /// 장비 착용 메서드
         /// </summary>
         /// <param name="equipment"></param>
-        public virtual void Equip(Equipment equipment)
+        public void Equip(Equipment equipment)
         {
-            Console.WriteLine($"{equipment.name} 장착시도");
-
-            // 들어온 아이템이없으면 빠져나온다.
-            if (equipment == null)
-                return;
-
-            // 들어온 아이템이 인벤토리에 없으면 빠져나온다.
-            if (!inventory.list.Contains(equipment))
-            {
-                Console.WriteLine($"{equipment.name}가 인벤토리에 없습니다.");
-                return;
-            }
-
-            // 들어온 아이템이 공용타입이 아니면 착용 불가
-            if (equipment.type == Item.ItemType.Weapon)
-            {
-                if (equipment is Weapon)
-                {
-                    Weapon weapon = (Weapon)equipment;
-                    if (weapon.weaponType != Weapon.WeaponType.Common)
-                    {
-                        Console.WriteLine("공용무기가 아니면 착용 불가능합니다.");
-                        return;
-                    }
-                }
-            }
-
-            // 장비요구 레벨보다 현재 레벨이 작으면 착용 불가
-            if (this.level < equipment.requireLevel)
-            {
-                Console.WriteLine("착용레벨이 낮아 착용 불가능합니다.");
-                return;
-            }
-
-            // 들어온 아이템이 그 부위에 착용중이면 장비를 벗는다.
-            if (wearingEquip.ContainsKey(equipment.type))
-                UnEquip(wearingEquip[equipment.type]);
-
-            // 인벤토리에 장비를 지우고
-            inventory.list.Remove(equipment);
-            // 착용한 분위에 이 장비를 착용 시킨다.
-            wearingEquip.Add(equipment.type, equipment);
-            Console.WriteLine($"{equipment.name} 장착");
-            // 그 장비에 대한 스텟 적용
-            equipment.ApplyStatusModifier(this);
+            EquipEvent?.Invoke(this, equipment);
         }
 
         /// <summary>
         /// 장비 벗는 메서드
         /// </summary>
         /// <param name="equipment"></param>
-        public virtual void UnEquip(Equipment equipment)
+        public void UnEquip(Equipment equipment)
         {
-            // 들어온 아이템이없으면 빠져나온다.
-            if (equipment == null)
-                return;
-
-            // 착용중인 부위에 아이템이 있으면
-            if (wearingEquip.ContainsKey(equipment.type))
-            {
-                Console.WriteLine($"착용중인 {wearingEquip[equipment.type].name} 벗음");
-                // 인벤토리에 착용중인 장비를 넣어주고
-                inventory.list.Add(wearingEquip[equipment.type]);
-                // 착용중인 장비를 지워준다.
-                wearingEquip.Remove(equipment.type);
-                // 스텟 미적용
-                equipment.RemoveStatusModifier(this);
-            }
-            else
-                Console.WriteLine($"{equipment.type}를 장착하고 있지 않습니다.");
+            UnEquipEvent?.Invoke(this, equipment);
         }
+
 
         public virtual void UseWeapon()
         {
-            if(wearingEquip.ContainsKey(Item.ItemType.Weapon))
+            if (wearingEquip.ContainsKey(Item.ItemType.Weapon))
             {
                 wearingEquip[Item.ItemType.Weapon].use();
             }

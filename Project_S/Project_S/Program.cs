@@ -13,6 +13,7 @@ namespace Project_S
             Core.GetInstance().Init();
 
             Player player = new Player("newPlayer");
+            Player archer = new Archer("보우맨");
             Equipment sword = new Sword();
             Equipment firesword = new FireSword();
             player.AddItemToInventory(sword);
@@ -127,7 +128,6 @@ namespace Project_S
                 Console.Write($"{item.Value.name}, ");
             Console.WriteLine();
 
-            Player archer = new Archer("보우맨");
             archer.AddItemToInventory(sword);
             archer.AddItemToInventory(firesword);
             archer.AddItemToInventory(bow);
