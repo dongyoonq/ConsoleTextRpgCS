@@ -8,14 +8,22 @@ namespace Project_S
 {
     public class MainState : GameState
     {
+        private enum State
+        {
+            GameMode = 2,
+            LoadGame = 3,
+            Exit = 4
+        }
+
         private int prevLeft = 10;
         private int prevTop = 2;
 
         public override void Input()
         {
-
             // 메인 상태에서의 Input 처리
-
+            InputManager.GetInstance().KeyPressed -= Player.OnKeyPressed;
+            InputManager.GetInstance().HandleInput();
+            
             var key = Console.ReadKey(true);
 
             switch (key.Key)
@@ -25,6 +33,10 @@ namespace Project_S
                     break;
                 case ConsoleKey.S: case ConsoleKey.DownArrow:
                     InputManager.GetInstance().SetCommand(new MoveDownCommand());
+                    break;
+                case ConsoleKey.Enter:
+                    InputManager.GetInstance().SetCommand(null);
+                    NextState(prevTop);
                     break;
                 default:
                     InputManager.GetInstance().SetCommand(null);
@@ -38,13 +50,12 @@ namespace Project_S
         {
             // 메인 상태에서의 Update 처리
 
-            if (Console.CursorTop > 4)
-            { prevTop = 4; return; }
+            if (Console.CursorTop > (int)State.Exit)
+            { prevTop = (int)State.Exit; return; }
 
-            if (Console.CursorTop < 2)
-            { prevTop = 2; return; }
+            if (Console.CursorTop < (int)State.GameMode)
+            { prevTop = (int)State.GameMode; return; }
 
-            prevLeft = Console.GetCursorPosition().Left;
             prevTop = Console.GetCursorPosition().Top;
         }
 
@@ -53,34 +64,74 @@ namespace Project_S
             // 메인 상태에서의 Render 처리
             Console.Clear();
             Console.SetCursorPosition(0, 0);
-            Console.ForegroundColor = ConsoleColor.Cyan; Console.WriteLine("Main State\n");
+            Console.ForegroundColor = ConsoleColor.Cyan; Console.WriteLine("[ Main State ]\n");
             Console.ForegroundColor = ConsoleColor.Gray;
 
-            if (prevTop == 2)
+            DefaultRender(prevTop);
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.SetCursorPosition(9, prevTop);
+        }
+
+        private void DefaultRender(int prevTop)
+        {
+
+            if (prevTop == (int)State.GameMode)
             {
                 Console.SetCursorPosition(0, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Game Mode");
-                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Write("Game Mode");
             }
-            else { Console.SetCursorPosition(0, 2); Console.WriteLine("Game Mode"); }
-            if (prevTop == 3)
+            else
+            {
+                Console.SetCursorPosition(0, (int)State.GameMode);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Write("Game Mode");
+            }
+
+            if (prevTop == (int)State.LoadGame)
             {
                 Console.SetCursorPosition(0, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Load Game");
-                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Write("Load Game");
             }
-            else { Console.SetCursorPosition(0, 3); Console.WriteLine("Load Game"); }
-            if (prevTop == 4)
+            else
+            {
+                Console.SetCursorPosition(0, (int)State.LoadGame);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Write("Load Game");
+            }
+
+            if (prevTop == (int)State.Exit)
             {
                 Console.SetCursorPosition(0, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Exit");
-                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Write("Exit");
             }
-            else { Console.SetCursorPosition(0, 4); Console.WriteLine("Exit"); }
-            Console.SetCursorPosition(10, prevTop);
+            else
+            {
+                Console.SetCursorPosition(0, (int)State.Exit);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Write("Exit");
+            }
+        }
+
+        private void NextState(int prevTop)
+        {
+            switch(prevTop)
+            {
+                case (int)State.GameMode:
+                    Core.GetInstance().ChangeState(null);
+                    break;
+                case (int)State.LoadGame:
+                    Core.GetInstance().ChangeState(null);
+                    break;
+                case (int)State.Exit:
+                    Environment.Exit(0);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

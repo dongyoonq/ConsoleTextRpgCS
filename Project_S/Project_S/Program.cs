@@ -6,13 +6,13 @@ namespace Project_S
     {
         static void Main(string[] args)
         {
-            
-            if(Core.GetInstance().Init())
+            Player player = new Player("newPlayer");
+            if (Core.GetInstance().Init())
                 Core.GetInstance().Run();
 
             //Core.GetInstance().Init();
 
-            Player player = new Player("newPlayer");
+            //Player player = new Player("newPlayer");
             Player archer = new Archer("보우맨");
             Equipment sword = new NormalSword();
             Equipment firesword = new FireSword();

@@ -16,7 +16,7 @@ namespace Project_S
         public bool Init()
         {
             Console.SetCursorPosition(0, 0);
-            //Console.CursorVisible = false;
+            Console.CursorVisible = false;
 
             if (!EventManager.GetInstance().Init())
                 return false;
