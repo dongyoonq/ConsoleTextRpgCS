@@ -15,8 +15,8 @@ namespace Project_S
             Player player = new Player("newPlayer");
             Equipment sword = new Sword();
             Equipment firesword = new FireSword();
-            player.inventory.list.Add(sword);
-            player.inventory.list.Add(firesword);
+            player.AddItemToInventory(sword);
+            player.AddItemToInventory(firesword);
 
             Console.Write("[ 현재 인벤토리 ] ");
             foreach (var item in player.inventory.list)
@@ -27,6 +27,7 @@ namespace Project_S
                 Console.Write($"{item.Value.name}, ");
             Console.WriteLine();
             player.Equip(sword);
+            player.UseWeapon();
 
             Console.Write("[ 현재 인벤토리 ] ");
             foreach (var item in player.inventory.list)
@@ -78,7 +79,7 @@ namespace Project_S
             Console.WriteLine();
 
             Console.WriteLine($"{sword.name} 버리기");
-            player.inventory.list.Remove(sword);
+            player.RemoveItemFromInventory(sword);
             Console.Write("[ 현재 인벤토리 ] ");
             foreach (var item in player.inventory.list)
                 Console.Write($"{item.name}, ");
@@ -89,6 +90,46 @@ namespace Project_S
             Console.WriteLine();
 
             player.Equip(sword);
+
+            Console.Write("[ 현재 인벤토리 ] ");
+            foreach (var item in player.inventory.list)
+                Console.Write($"{item.name}, ");
+            Console.WriteLine();
+            Console.Write("[ 현재 장착중인 아이템 ] ");
+            foreach (var item in player.wearingEquip)
+                Console.Write($"{item.Value.name}, ");
+            Console.WriteLine();
+            Equipment bow = new Bow();
+            player.Equip(bow);
+
+            player.AddItemToInventory(bow);
+            Console.Write("[ 현재 인벤토리 ] ");
+            foreach (var item in player.inventory.list)
+                Console.Write($"{item.name}, ");
+            Console.WriteLine();
+            Console.Write("[ 현재 장착중인 아이템 ] ");
+            foreach (var item in player.wearingEquip)
+                Console.Write($"{item.Value.name}, ");
+            Console.WriteLine();
+
+            player.Equip(bow);
+            Console.Write("[ 현재 인벤토리 ] ");
+            foreach (var item in player.inventory.list)
+                Console.Write($"{item.name}, ");
+            Console.WriteLine();
+            Console.Write("[ 현재 장착중인 아이템 ] ");
+            foreach (var item in player.wearingEquip)
+                Console.Write($"{item.Value.name}, ");
+            Console.WriteLine();
+
+            Player archer = new Archer("보우맨");
+            archer.AddItemToInventory(sword);
+            archer.AddItemToInventory(firesword);
+            archer.AddItemToInventory(bow);
+
+            archer.Equip(sword);
+            archer.Equip(firesword);
+            archer.Equip(bow);
         }
     }
 }

@@ -34,6 +34,7 @@ namespace Project_S
             status.MaxMp = 30;
             status.AttackPoint = 50;
             nickname = name;
+            skills = new List<Skill>();
             inventory = new Inventory();
             wearingEquip = new Dictionary<Item.ItemType, Equipment>();
         }
@@ -70,16 +71,39 @@ namespace Project_S
         /// 장비 착용 메서드
         /// </summary>
         /// <param name="equipment"></param>
-        public void Equip(Equipment equipment)
+        public virtual void Equip(Equipment equipment)
         {
+            Console.WriteLine($"{equipment.name} 장착시도");
+
             // 들어온 아이템이없으면 빠져나온다.
-            if(equipment == null)
+            if (equipment == null)
                 return;
 
             // 들어온 아이템이 인벤토리에 없으면 빠져나온다.
             if (!inventory.list.Contains(equipment))
             {
                 Console.WriteLine($"{equipment.name}가 인벤토리에 없습니다.");
+                return;
+            }
+
+            // 들어온 아이템이 공용타입이 아니면 착용 불가
+            if (equipment.type == Item.ItemType.Weapon)
+            {
+                if (equipment is Weapon)
+                {
+                    Weapon weapon = (Weapon)equipment;
+                    if (weapon.weaponType != Weapon.WeaponType.Common)
+                    {
+                        Console.WriteLine("공용무기가 아니면 착용 불가능합니다.");
+                        return;
+                    }
+                }
+            }
+
+            // 장비요구 레벨보다 현재 레벨이 작으면 착용 불가
+            if (this.level < equipment.requireLevel)
+            {
+                Console.WriteLine("착용레벨이 낮아 착용 불가능합니다.");
                 return;
             }
 
@@ -100,7 +124,7 @@ namespace Project_S
         /// 장비 벗는 메서드
         /// </summary>
         /// <param name="equipment"></param>
-        public void UnEquip(Equipment equipment)
+        public virtual void UnEquip(Equipment equipment)
         {
             // 들어온 아이템이없으면 빠져나온다.
             if (equipment == null)
@@ -119,6 +143,11 @@ namespace Project_S
             }
             else
                 Console.WriteLine($"{equipment.type}를 장착하고 있지 않습니다.");
+        }
+
+        public virtual void UseWeapon()
+        {
+
         }
 
         // 플레이어 콘솔 입력 이벤트 핸들러

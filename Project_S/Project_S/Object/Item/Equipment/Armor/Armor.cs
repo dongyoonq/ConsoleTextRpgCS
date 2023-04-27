@@ -6,6 +6,9 @@ namespace Project_S
 {
     abstract class Armor : Equipment
     {
-
+        protected Armor()
+        {
+            type = ItemType.Aromor;
+        }
     }
 }

@@ -6,6 +6,10 @@ namespace Project_S
 {
     public class ExplosiveArrow : Skill
     {
+        public ExplosiveArrow()
+        {
+        }
+
         public int Damage { get; set; }
 
         public override void Use(Player player, Monster target)
