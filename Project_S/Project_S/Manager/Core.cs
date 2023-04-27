@@ -6,6 +6,7 @@ namespace Project_S
 {
     public class Core
     {
+        private GameState currentState;
         private static Core Inst;
         public static Core GetInstance()
         {
@@ -14,6 +15,8 @@ namespace Project_S
 
         public bool Init()
         {
+            Console.CursorVisible = false;
+
             if (!EventManager.GetInstance().Init())
                 return false;
 
@@ -47,6 +50,8 @@ namespace Project_S
             if (!EffectManager.GetInstance().Init())
                 return false;
 
+            currentState = new MainState();
+
             return true;
         }
 
@@ -64,17 +69,26 @@ namespace Project_S
 
         public virtual void Input()
         {
-            InputManager.GetInstance().HandleInput();
+            // 현재 상태에서 Input처리
+            currentState.Input();
         }
 
         public virtual void Update()
         {
-
+            // 현재 상태에서 Update처리
+            currentState.Update();
         }
 
         public virtual void Render()
         {
+            // 현재 상태에서 Render처리
+            currentState.Render();
+        }
 
+        public void ChangeState(GameState newState)
+        {
+            // 상태 변경 메서드
+            currentState = newState;
         }
     }
 }

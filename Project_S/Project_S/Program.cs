@@ -6,11 +6,11 @@ namespace Project_S
     {
         static void Main(string[] args)
         {
-            /*
+            
             if(Core.GetInstance().Init())
-                Core.GetInstance().Run();*/
+                Core.GetInstance().Run();
 
-            Core.GetInstance().Init();
+            //Core.GetInstance().Init();
 
             Player player = new Player("newPlayer");
             Player archer = new Archer("보우맨");
