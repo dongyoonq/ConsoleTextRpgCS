@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Project_S
 {
-    internal class Sword : Weapon
+    internal class NormalSword : Weapon
     {
-        public Sword()
+        public NormalSword()
         {
             name = "Sword";
             attackPoint = 40;

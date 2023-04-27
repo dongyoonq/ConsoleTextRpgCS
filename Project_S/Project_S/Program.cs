@@ -14,7 +14,7 @@ namespace Project_S
 
             Player player = new Player("newPlayer");
             Player archer = new Archer("보우맨");
-            Equipment sword = new Sword();
+            Equipment sword = new NormalSword();
             Equipment firesword = new FireSword();
             player.AddItemToInventory(sword);
             player.AddItemToInventory(firesword);
