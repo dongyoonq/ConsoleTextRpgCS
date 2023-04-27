@@ -38,6 +38,7 @@ namespace Project_S
                 Console.Write($"{item.Value.name}, ");
             Console.WriteLine();
             player.Equip(firesword);
+            player.UseWeapon();
 
             Console.Write("[ 현재 인벤토리 ] ");
             foreach (var item in player.inventory.list)
@@ -48,6 +49,7 @@ namespace Project_S
                 Console.Write($"{item.Value.name}, ");
             Console.WriteLine();
             player.UnEquip(sword);
+            player.UseWeapon();
 
             Console.Write("[ 현재 인벤토리 ] ");
             foreach (var item in player.inventory.list)
@@ -58,6 +60,7 @@ namespace Project_S
                 Console.Write($"{item.Value.name}, ");
             Console.WriteLine();
             player.Equip(sword);
+            player.UseWeapon();
 
             Console.Write("[ 현재 인벤토리 ] ");
             foreach (var item in player.inventory.list)
@@ -68,6 +71,7 @@ namespace Project_S
                 Console.Write($"{item.Value.name}, ");
             Console.WriteLine();
             player.Equip(firesword);
+            player.UseWeapon();
 
             Console.Write("[ 현재 인벤토리 ] ");
             foreach (var item in player.inventory.list)
@@ -90,6 +94,7 @@ namespace Project_S
             Console.WriteLine();
 
             player.Equip(sword);
+            player.UseWeapon();
 
             Console.Write("[ 현재 인벤토리 ] ");
             foreach (var item in player.inventory.list)

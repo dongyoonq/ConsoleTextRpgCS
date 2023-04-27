@@ -147,7 +147,12 @@ namespace Project_S
 
         public virtual void UseWeapon()
         {
-
+            if(wearingEquip.ContainsKey(Item.ItemType.Weapon))
+            {
+                wearingEquip[Item.ItemType.Weapon].use();
+            }
+            else
+                Console.WriteLine("무기를 착용중이지 않습니다.");
         }
 
         // 플레이어 콘솔 입력 이벤트 핸들러
