@@ -80,7 +80,7 @@ namespace Project_S
             {
                 Console.SetCursorPosition(0, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("Game Mode");
+                Console.Write("> Game Mode");
             }
             else
             {
@@ -93,7 +93,7 @@ namespace Project_S
             {
                 Console.SetCursorPosition(0, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("Load Game");
+                Console.Write("> Load Game");
             }
             else
             {
@@ -106,7 +106,7 @@ namespace Project_S
             {
                 Console.SetCursorPosition(0, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("Exit");
+                Console.Write("> Exit");
             }
             else
             {
