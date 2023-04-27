@@ -15,7 +15,8 @@ namespace Project_S
 
         public bool Init()
         {
-            Console.CursorVisible = false;
+            Console.SetCursorPosition(0, 0);
+            //Console.CursorVisible = false;
 
             if (!EventManager.GetInstance().Init())
                 return false;
@@ -50,7 +51,8 @@ namespace Project_S
             if (!EffectManager.GetInstance().Init())
                 return false;
 
-            currentState = new MainState();
+            currentState ??= new MainState();
+            currentState.Render();
 
             return true;
         }

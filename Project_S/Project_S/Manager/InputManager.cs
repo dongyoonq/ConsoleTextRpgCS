@@ -8,6 +8,7 @@ namespace Project_S
     {
         // KeyPressed라는 이벤트를 정의
         public event Action<char> KeyPressed;
+        private ICommand _command;
 
         private static InputManager Inst;
         public static InputManager GetInstance()
@@ -28,6 +29,16 @@ namespace Project_S
         public bool Init()
         {
             return true;
+        }
+
+        public void SetCommand(ICommand command)
+        {
+            _command = command;
+        }
+
+        public void ExecuteCommand()
+        {
+            _command?.Execute();
         }
     }
 }
