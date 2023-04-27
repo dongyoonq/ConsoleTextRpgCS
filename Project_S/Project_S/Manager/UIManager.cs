@@ -16,5 +16,20 @@ namespace Project_S
         {
             return true;
         }
+
+        public void Show()
+        {
+            string[] Ui = { "  _   _ ___ ",
+                             " | | | |_ _|",
+                             " | | | || | ",
+                             " | |_| || | ",
+                             "  \\___/|___|" };
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine("=========================================================================");
+            foreach(string key in Ui)
+                Console.WriteLine(key);
+            Console.SetCursorPosition(0, 20);
+            Console.WriteLine("=========================================================================");
+        }
     }
 }

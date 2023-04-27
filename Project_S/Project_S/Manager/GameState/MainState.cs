@@ -15,7 +15,6 @@ namespace Project_S
             Exit = 4
         }
 
-        private int prevLeft = 10;
         private int prevTop = 2;
 
         public override void Input()
@@ -64,8 +63,9 @@ namespace Project_S
             // 메인 상태에서의 Render 처리
             Console.Clear();
             Console.SetCursorPosition(0, 0);
-            Console.ForegroundColor = ConsoleColor.Cyan; Console.WriteLine("[ Main State ]\n");
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.Cyan; 
+            
+            Console.WriteLine("[ Main State ]\n");
 
             DefaultRender(prevTop);
 
@@ -121,7 +121,9 @@ namespace Project_S
             switch(prevTop)
             {
                 case (int)State.GameMode:
-                    Core.GetInstance().ChangeState(null);
+                    GameModeState gameMode = new GameModeState();
+                    Console.Clear();
+                    Core.GetInstance().ChangeState(gameMode);
                     break;
                 case (int)State.LoadGame:
                     Core.GetInstance().ChangeState(null);

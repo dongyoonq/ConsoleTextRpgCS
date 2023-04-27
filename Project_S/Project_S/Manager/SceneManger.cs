@@ -7,6 +7,7 @@ namespace Project_S
     // Scene 클래스
     public class SceneManager
     {
+
         // 생성자
         private static SceneManager Inst;
         public static SceneManager GetInstance()
@@ -18,6 +19,11 @@ namespace Project_S
         public bool Init()
         {
             return true;
+        }
+
+        public void ShowScene()
+        {
+
         }
     }
 }
