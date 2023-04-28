@@ -8,6 +8,12 @@ namespace Project_S
 {
     public class MainState : GameState
     {
+        private static MainState Inst;
+        public static MainState GetInstance()
+        {
+            return Inst ??= new MainState();
+        }
+
         private enum State
         {
             GameMode = 2,
@@ -119,10 +125,9 @@ namespace Project_S
             switch(prevTop)
             {
                 case (int)State.GameMode:
-                    GameModeState gameMode = new GameModeState();
-                    EventManager.GetInstance().OnPlayerMoveEventAdd();
+                    GameModeState.GetInstance().SetScene("StartScene");
                     Console.Clear();
-                    Core.GetInstance().ChangeState(gameMode);
+                    Core.GetInstance().ChangeState(GameModeState.GetInstance());
                     break;
                 case (int)State.LoadGame:
                     Core.GetInstance().ChangeState(null);

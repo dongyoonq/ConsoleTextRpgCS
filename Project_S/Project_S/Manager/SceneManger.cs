@@ -7,6 +7,7 @@ namespace Project_S
     // Scene 클래스
     public class SceneManager
     {
+        Dictionary<string, Scene> sceneMap;
 
         // 생성자
         private static SceneManager Inst;
@@ -18,14 +19,24 @@ namespace Project_S
         // 장면 실행 메서드
         public bool Init()
         {
+            sceneMap = new Dictionary<string, Scene>();
+            AddScene("StartScene", StartScene.GetInstance());
             return true;
         }
 
-        public void ShowScene(Player player)
+        // 가지고 있는 장면들을 다른 클래스에 주는 메서드
+        public Scene GetScene(string SceneName)
         {
-            Console.SetCursorPosition(player.pos.x * 2, player.pos.y);
-            Console.WriteLine("★");
+            if(sceneMap.ContainsKey(SceneName))
+                return sceneMap[SceneName];
 
+            return null;
+        }
+
+        // 장면들을 등록하는 메서드
+        private void AddScene(string SceneName, Scene scene)
+        {
+            sceneMap.Add(SceneName, scene);
         }
     }
 }
