@@ -91,6 +91,7 @@ namespace Project_S
         {
             // 상태 변경 메서드
             currentState = newState;
+
         }
     }
 }

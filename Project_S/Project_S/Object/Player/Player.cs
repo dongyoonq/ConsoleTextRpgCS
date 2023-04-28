@@ -16,6 +16,11 @@ namespace Project_S
     // Player 클래스
     public class Player
     {
+        public struct Pos
+        {
+            public int x, y;
+        }
+
         // 이벤트 정의
         public delegate void EquipEventHandler(object sender, Equipment equipment);
         public static event EquipEventHandler EquipEvent;
@@ -26,6 +31,9 @@ namespace Project_S
 
         public Job job = Job.None;  // 직업
 
+        private Pos _pos;
+        public Pos pos { get { return _pos; } set { _pos = value; } }
+
         public Status status;
         public Inventory inventory;
         public Dictionary<Item.ItemType, Equipment> wearingEquip;
@@ -34,11 +42,12 @@ namespace Project_S
 
         public Player(string name)
         {
+            nickname = name;
+            _pos.x = 0; _pos.y = 0;
             status = new Status();
             status.MaxHp = 600;
             status.MaxMp = 30;
             status.AttackPoint = 50;
-            nickname = name;
             skills = new List<Skill>();
             inventory = new Inventory();
             wearingEquip = new Dictionary<Item.ItemType, Equipment>();
@@ -102,25 +111,21 @@ namespace Project_S
         }
 
         // 플레이어 콘솔 입력 이벤트 핸들러
-        public static void OnKeyPressed(char key)
+        public static void OnKeyPressed(Player player, char key)
         {
             switch (key)
             {
                 case 'a':
-                    Console.WriteLine($"Player moved left");
-                    //player.MoveLeft();
+                    player._pos.x--;
                     break;
                 case 'd':
-                    Console.WriteLine($"Player moved Right");
-                    //player.MoveRight();
+                    player._pos.x++;
                     break;
                 case 'w':
-                    Console.WriteLine($"Player moved Up");
-                    //player.MoveUp();
+                    player._pos.y--;
                     break;
                 case 's':
-                    Console.WriteLine($"Player moved Down");
-                    //player.MoveDown();
+                    player._pos.y++;
                     break;
                 default:
                     break;

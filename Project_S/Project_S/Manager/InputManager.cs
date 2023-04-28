@@ -7,7 +7,7 @@ namespace Project_S
     public class InputManager
     {
         // KeyPressed라는 이벤트를 정의
-        public event Action<char> KeyPressed;
+        public event Action<Player, char> KeyPressed;
         private ICommand _command;
 
         private static InputManager Inst;
@@ -16,14 +16,11 @@ namespace Project_S
             return Inst ??= new InputManager();
         }
 
-        public void HandleInput()
+        public void HandleInput(Player player)
         {
-            if (Console.KeyAvailable)
-            {
-                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-                char inputChar = keyInfo.KeyChar;
-                KeyPressed?.Invoke(inputChar);
-            }
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            char inputChar = keyInfo.KeyChar;
+            KeyPressed?.Invoke(player, inputChar);
         }
 
         public bool Init()

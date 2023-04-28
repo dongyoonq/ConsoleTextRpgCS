@@ -21,8 +21,10 @@ namespace Project_S
             return true;
         }
 
-        public void ShowScene()
+        public void ShowScene(Player player)
         {
+            Console.SetCursorPosition(player.pos.x * 2, player.pos.y);
+            Console.WriteLine("★");
 
         }
     }

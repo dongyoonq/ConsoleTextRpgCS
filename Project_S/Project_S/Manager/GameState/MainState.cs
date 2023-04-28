@@ -20,8 +20,6 @@ namespace Project_S
         public override void Input()
         {
             // 메인 상태에서의 Input 처리
-            InputManager.GetInstance().KeyPressed -= Player.OnKeyPressed;
-            InputManager.GetInstance().HandleInput();
             
             var key = Console.ReadKey(true);
 
@@ -122,6 +120,7 @@ namespace Project_S
             {
                 case (int)State.GameMode:
                     GameModeState gameMode = new GameModeState();
+                    EventManager.GetInstance().OnPlayerMoveEventAdd();
                     Console.Clear();
                     Core.GetInstance().ChangeState(gameMode);
                     break;

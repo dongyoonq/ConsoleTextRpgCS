@@ -19,6 +19,7 @@ namespace Project_S
 
         public void Show()
         {
+
             string[] Ui = { "  _   _ ___ ",
                              " | | | |_ _|",
                              " | | | || | ",
@@ -28,7 +29,8 @@ namespace Project_S
             Console.WriteLine("=========================================================================");
             foreach(string key in Ui)
                 Console.WriteLine(key);
-            Console.SetCursorPosition(0, 20);
+            Console.SetCursorPosition(0, 25);
+            Console.WriteLine("　[ 1. 인벤토리 ]　[ 2. 장비 ]　[ 3. 스텟 ]　[ 4. 퀘스트 ]　[ 5. 설정 ]\n");
             Console.WriteLine("=========================================================================");
         }
     }
