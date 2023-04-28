@@ -82,6 +82,7 @@ namespace Project_S
         public override void Render()
         {
             Console.Clear();
+
             Show();
         }
 

@@ -79,12 +79,13 @@ namespace Project_S
         public override void Render()
         {
             // 메인 상태에서의 Render 처리
+            Console.Clear();
+
             DefaultRender();
         }
 
         private void DefaultRender()
         {
-            Console.Clear();
             Console.SetCursorPosition(17, 3);
             Console.ForegroundColor = ConsoleColor.Cyan;
 
