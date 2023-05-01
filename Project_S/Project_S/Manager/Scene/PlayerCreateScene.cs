@@ -250,7 +250,7 @@ namespace Project_S
         private void CreatePlayer()
         {
             Player player = new Player(this.name);
-            PlayerManager.GetInstance().playerTable.Add(this.name, player);
+            PlayerManager.GetInstance().playerList.Add(player);
         }
 
         private string GetNickname()

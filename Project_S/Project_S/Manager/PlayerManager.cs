@@ -6,7 +6,7 @@ namespace Project_S
 {
     public class PlayerManager
     {
-        public Dictionary<string, Player> playerTable;
+        public List<Player> playerList;
 
         private static PlayerManager Inst;
         public static PlayerManager GetInstance()
@@ -16,7 +16,7 @@ namespace Project_S
 
         public bool Init()
         {
-            playerTable = new Dictionary<string, Player>();
+            playerList = new List<Player> ();
             return true;
         }
     }
