@@ -148,7 +148,7 @@ namespace Project_S
 
         protected override string LoadFileToStringMap()
         {
-            StreamReader file = new StreamReader(@"..\..\..\Manager\Scene\Map\StartScene.txt");
+            StreamReader file = new StreamReader(@"..\..\..\Object\Map\TileMap\StartScene.txt");
 
             string strMap = "";
             strMap = file.ReadToEnd();
