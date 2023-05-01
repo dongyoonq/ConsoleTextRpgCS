@@ -6,7 +6,7 @@ namespace Project_S
 {
     public class MonsterManager
     {
-        private List<Monster> monsters;
+        public Dictionary<string, Monster> monsterTable;
         private int spawnInfo;
 
         private static MonsterManager Inst;

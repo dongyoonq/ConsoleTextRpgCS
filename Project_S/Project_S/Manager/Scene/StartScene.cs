@@ -162,6 +162,7 @@ namespace Project_S
         {
             prevTop = 6;
             base.ResetMap();
+            Init();
         }
 
         private void NextState(int prevTop)

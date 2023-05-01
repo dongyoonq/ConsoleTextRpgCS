@@ -160,8 +160,7 @@ namespace Project_S
                 case (int)State.GameMode:
                     Console.Clear();
                     Core.GetInstance().ChangeState(GameModeState.GetInstance());
-                    if (StartScene.GetInstance().Init())
-                        GameModeState.GetInstance().SetScene("StartScene");
+                    GameModeState.GetInstance().SetScene("StartScene");
                     break;
                 case (int)State.LoadGame:
                     Core.GetInstance().ChangeState(null);
