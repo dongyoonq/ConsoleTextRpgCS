@@ -30,6 +30,9 @@ namespace Project_S
             if (!ItemManager.GetInstance().Init())
                 return false;
 
+            if (!PlayerManager.GetInstance().Init())
+                return false;
+
             if (!MonsterManager.GetInstance().Init())
                 return false;
 

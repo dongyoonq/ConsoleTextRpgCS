@@ -228,6 +228,9 @@ namespace Project_S
         {
             switch (prevTop)
             {
+                case (int)State.Descison:
+                    CreatePlayer();
+                    break;
                 case (int)State.Reset:
                     name = null;
                     RangeChangeFlag = false;
@@ -242,6 +245,12 @@ namespace Project_S
                 default:
                     break;
             }
+        }
+
+        private void CreatePlayer()
+        {
+            Player player = new Player(this.name);
+            PlayerManager.GetInstance().playerTable.Add(this.name, player);
         }
 
         private string GetNickname()
