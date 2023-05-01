@@ -16,6 +16,7 @@ namespace Project_S
         bool Up = false;
         bool ArrowKeyDown = false;
         bool InputNickname = false;
+        bool RangeChangeFlag = false;
         string name;
 
         private enum State
@@ -94,9 +95,16 @@ namespace Project_S
             if (prevTop > (int)State.Back)
             { prevTop = (int)State.Back; return; }
 
-
-            if (prevTop < (int)State.InputName)
-            { prevTop = (int)State.InputName; return; }
+            if(!RangeChangeFlag)
+            {
+                if (prevTop < (int)State.InputName)
+                { prevTop = (int)State.InputName; return; }
+            }
+            else
+            {
+                if (prevTop < (int)State.Descison)
+                { prevTop = (int)State.Descison; return; }
+            }
 
         }
 
@@ -172,6 +180,7 @@ namespace Project_S
                     name = GetNickname();
                     Console.CursorVisible = false;
                     InputNickname = true;
+                    RangeChangeFlag = true;
                 }
                 else
                 {
@@ -218,6 +227,7 @@ namespace Project_S
             {
                 case (int)State.Reset:
                     name = null;
+                    RangeChangeFlag = false;
                     InputNickname = false;
                     this.prevTop = 6;
                     break;
