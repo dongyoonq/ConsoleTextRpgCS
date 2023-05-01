@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,11 @@ namespace Project_S
             return Inst ??= new StartScene();
         }
 
+        public bool Init()
+        {
+            return SetMap(StringToChar(LoadFileToStringMap())) ? true : false;
+        }
+
         public override void Input()
         {
             Console.SetCursorPosition(0, prevTop);
@@ -37,18 +43,19 @@ namespace Project_S
                 case ConsoleKey.W:
                 case ConsoleKey.UpArrow:
                     ArrowKeyDown = true;
-                    InputManager.GetInstance().SetCommand(new MoveUpCommand());
+                    InputManager.GetInstance().SetCommand(new CursorMoveUpCommand());
                     Up = true;
                     break;
                 case ConsoleKey.S:
                 case ConsoleKey.DownArrow:
                     ArrowKeyDown = true;
-                    InputManager.GetInstance().SetCommand(new MoveDownCommand());
+                    InputManager.GetInstance().SetCommand(new CursorMoveDownCommand());
                     Up = false;
                     break;
                 case ConsoleKey.Enter:
                     ArrowKeyDown = false;
                     InputManager.GetInstance().SetCommand(null);
+                    NextState(prevTop);
                     break;
                 default:
                     InputManager.GetInstance().SetCommand(null);
@@ -58,7 +65,7 @@ namespace Project_S
 
             InputManager.GetInstance().ExecuteCommand();
 
-            //InputManager.GetInstance().HandleInput(tester);
+            //InputManager.GetInstance().PlayerInputHandle(tester);
         }
 
         public override void Update()
@@ -88,6 +95,7 @@ namespace Project_S
 
         protected override void Show()
         {
+            ShowTileMap();
             DefaultRender();
             //UiManager.GetInstance().Show();
         }
@@ -95,46 +103,84 @@ namespace Project_S
         private void DefaultRender()
         {
             Console.SetCursorPosition(17, 3);
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("새로운 플레이어를 생성하세요 !");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(" 새로운 플레이어를 생성하세요 !");
 
             if (prevTop == (int)State.CreatePlayer)
             {
-                Console.SetCursorPosition(25, prevTop);
+                Console.SetCursorPosition(27, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("> 생성한다 ");
+                Console.Write(" ▶ 생성한다 ");
             }
             else
             {
-                Console.SetCursorPosition(25, (int)State.CreatePlayer);
+                Console.SetCursorPosition(27, (int)State.CreatePlayer);
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.Write(" 생성한다 ");
             }
 
             if (prevTop == (int)State.Back)
             {
-                Console.SetCursorPosition(25, prevTop);
+                Console.SetCursorPosition(27, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("> 돌아간다 ");
+                Console.Write(" ▶ 돌아간다 ");
             }
             else
             {
-                Console.SetCursorPosition(25, (int)State.Back);
+                Console.SetCursorPosition(27, (int)State.Back);
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.Write(" 돌아간다 ");
             }
 
             if (prevTop == (int)State.Exit)
             {
-                Console.SetCursorPosition(28, prevTop);
+                Console.SetCursorPosition(29, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("> 종료");
+                Console.Write(" ▶ 종료");
             }
             else
             {
-                Console.SetCursorPosition(28, (int)State.Exit);
+                Console.SetCursorPosition(29, (int)State.Exit);
                 Console.ForegroundColor = ConsoleColor.Gray;
-                Console.Write("종료");
+                Console.Write(" 종료");
+            }
+        }
+
+        protected override string LoadFileToStringMap()
+        {
+            StreamReader file = new StreamReader(@"..\..\..\Manager\Scene\Map\StartScene.txt");
+
+            string strMap = "";
+            strMap = file.ReadToEnd();
+
+            file.Close();
+
+            return strMap;
+        }
+
+        protected override void ResetMap()
+        {
+            prevTop = 6;
+            base.ResetMap();
+        }
+
+        private void NextState(int prevTop)
+        {
+            switch (prevTop)
+            {
+                case (int)State.CreatePlayer:
+
+                    break;
+                case (int)State.Back:
+                    Console.Clear();
+                    ResetMap();
+                    Core.GetInstance().ChangeState(MainState.GetInstance());
+                    break;
+                case (int)State.Exit:
+                    Environment.Exit(0);
+                    break;
+                default:
+                    break;
             }
         }
     }

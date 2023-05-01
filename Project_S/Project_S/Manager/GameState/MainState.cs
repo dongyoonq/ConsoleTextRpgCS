@@ -8,6 +8,22 @@ namespace Project_S
 {
     public class MainState : GameState
     {
+        private string[] tile = {
+            "　　　　　　　　　　　　　　　　　　　　　　　　　　　　　",
+            "　　　　■■■■■■■■■■■■■■■■■■■■■■■■■",
+            "　　　　■　　　　　　　　　　　　　　　　　　　　　　　■",
+            "　　　　■　　　　　　　　　　　　　　　　　　　　　　　■",
+            "　　　　■　　　　　　　　　　　　　　　　　　　　　　　■",
+            "　　　　■　　　　　　　　　　　　　　　　　　　　　　　■",
+            "　　　　■　　　　　　　　　　　　　　　　　　　　　　　■",
+            "　　　　■　　　　　　　　　　　　　　　　　　　　　　　■",
+            "　　　　■　　　　　　　　　　　　　　　　　　　　　　　■",
+            "　　　　■　　　　　　　　　　　　　　　　　　　　　　　■",
+            "　　　　■　　　　　　　　　　　　　　　　　　　　　　　■",
+            "　　　　■　　　　　　　　　　　　　　　　　　　　　　　■",
+            "　　　　■　　　　　　　　　　　　　　　　　　　　　　　■",
+            "　　　　■　　　　　　　　　　　　　　　　　　　　　　　■",
+            "　　　　■■■■■■■■■■■■■■■■■■■■■■■■■" };
         private int prevTop = 6;
         bool Up = false;
         bool ArrowKeyDown = false;
@@ -35,12 +51,12 @@ namespace Project_S
             switch (key.Key)
             {
                 case ConsoleKey.W: case ConsoleKey.UpArrow:
-                    InputManager.GetInstance().SetCommand(new MoveUpCommand());
+                    InputManager.GetInstance().SetCommand(new CursorMoveUpCommand());
                     ArrowKeyDown = true;
                     Up = true;
                     break;
                 case ConsoleKey.S: case ConsoleKey.DownArrow:
-                    InputManager.GetInstance().SetCommand(new MoveDownCommand());
+                    InputManager.GetInstance().SetCommand(new CursorMoveDownCommand());
                     ArrowKeyDown = true;
                     Up = false;
                     break;
@@ -86,48 +102,54 @@ namespace Project_S
 
         private void DefaultRender()
         {
-            Console.SetCursorPosition(17, 3);
+            for(int i  = 0; i < tile.Length; i++) 
+            {
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.WriteLine(tile[i]);
+            }
+
+            Console.SetCursorPosition(25, 3);
             Console.ForegroundColor = ConsoleColor.Cyan;
 
-            Console.WriteLine("★ Main Menu ★\n");
+            Console.WriteLine(" ※ Main Menu ※\n");
 
             if (prevTop == (int)State.GameMode)
             {
-                Console.SetCursorPosition(19, prevTop);
+                Console.SetCursorPosition(27, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("> Game Mode");
+                Console.Write(" ▶ Game Mode");
             }
             else
             {
-                Console.SetCursorPosition(19, (int)State.GameMode);
+                Console.SetCursorPosition(27, (int)State.GameMode);
                 Console.ForegroundColor = ConsoleColor.Gray;
-                Console.Write("Game Mode");
+                Console.Write(" Game Mode");
             }
 
             if (prevTop == (int)State.LoadGame)
             {
-                Console.SetCursorPosition(19, prevTop);
+                Console.SetCursorPosition(27, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("> Load Game");
+                Console.Write(" ▶ Load Game");
             }
             else
             {
-                Console.SetCursorPosition(19, (int)State.LoadGame);
+                Console.SetCursorPosition(27, (int)State.LoadGame);
                 Console.ForegroundColor = ConsoleColor.Gray;
-                Console.Write("Load Game");
+                Console.Write(" Load Game");
             }
 
             if (prevTop == (int)State.Exit)
             {
-                Console.SetCursorPosition(19, prevTop);
+                Console.SetCursorPosition(29, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("> Exit");
+                Console.Write(" ▶ Exit");
             }
             else
             {
-                Console.SetCursorPosition(19, (int)State.Exit);
+                Console.SetCursorPosition(29, (int)State.Exit);
                 Console.ForegroundColor = ConsoleColor.Gray;
-                Console.Write("Exit");
+                Console.Write(" Exit");
             }
         }
 
@@ -136,9 +158,10 @@ namespace Project_S
             switch(prevTop)
             {
                 case (int)State.GameMode:
-                    GameModeState.GetInstance().SetScene("StartScene");
                     Console.Clear();
                     Core.GetInstance().ChangeState(GameModeState.GetInstance());
+                    if (StartScene.GetInstance().Init())
+                        GameModeState.GetInstance().SetScene("StartScene");
                     break;
                 case (int)State.LoadGame:
                     Core.GetInstance().ChangeState(null);

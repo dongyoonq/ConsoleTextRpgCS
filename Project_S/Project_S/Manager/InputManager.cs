@@ -16,16 +16,17 @@ namespace Project_S
             return Inst ??= new InputManager();
         }
 
-        public void HandleInput(Player player)
+        public bool Init()
+        {
+            return true;
+        }
+
+        // 플레이어 입력 핸들러
+        public void PlayerInputHandle(Player player)
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             char inputChar = keyInfo.KeyChar;
             KeyPressed?.Invoke(player, inputChar);
-        }
-
-        public bool Init()
-        {
-            return true;
         }
 
         public void SetCommand(ICommand command)

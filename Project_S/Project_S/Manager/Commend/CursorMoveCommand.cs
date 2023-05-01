@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Project_S
 {
-    public class MoveUpCommand : ICommand
+    public class CursorMoveUpCommand : ICommand
     {
         public void Execute()
         {
-            if(Console.CursorTop > 0)
+            if (Console.CursorTop > 0)
                 Console.CursorTop--;
         }
     }
 
-    public class MoveDownCommand : ICommand
+    public class CursorMoveDownCommand : ICommand
     {
         public void Execute()
         {
@@ -24,7 +24,7 @@ namespace Project_S
         }
     }
 
-    public class MoveLeftCommand : ICommand
+    public class CursorMoveLeftCommand : ICommand
     {
         public void Execute()
         {
@@ -33,7 +33,7 @@ namespace Project_S
         }
     }
 
-    public class MoveRightCommand : ICommand
+    public class CursorMoveRightCommand : ICommand
     {
         public void Execute()
         {
