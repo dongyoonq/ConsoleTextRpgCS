@@ -160,6 +160,7 @@ namespace Project_S
 
         protected override void ResetMap()
         {
+            Console.Clear();
             prevTop = 6;
             base.ResetMap();
             Init();
@@ -170,10 +171,10 @@ namespace Project_S
             switch (prevTop)
             {
                 case (int)State.CreatePlayer:
-
+                    ResetMap();
+                    GameModeState.GetInstance().SetScene("PlayerCreateScene");
                     break;
                 case (int)State.Back:
-                    Console.Clear();
                     ResetMap();
                     Core.GetInstance().ChangeState(MainState.GetInstance());
                     break;

@@ -20,9 +20,15 @@ namespace Project_S
         public bool Init()
         {
             sceneMap = new Dictionary<string, Scene>();
+
             if (!StartScene.GetInstance().Init())
                 return false;
             AddScene("StartScene", StartScene.GetInstance());
+
+            if (!PlayerCreateScene.GetInstance().Init())
+                return false;
+            AddScene("PlayerCreateScene", PlayerCreateScene.GetInstance());
+
             return true;
         }
 
