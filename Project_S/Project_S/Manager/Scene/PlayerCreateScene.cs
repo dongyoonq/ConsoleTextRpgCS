@@ -216,6 +216,9 @@ namespace Project_S
 
         protected override void ResetMap()
         {
+            name = null;
+            RangeChangeFlag = false;
+            InputNickname = false;
             prevTop = 6;
             base.ResetMap();
             Init();
