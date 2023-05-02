@@ -76,7 +76,6 @@ namespace Project_S
 
             InputManager.GetInstance().ExecuteCommand();
 
-            //InputManager.GetInstance().PlayerInputHandle(tester);
         }
 
         public override void Update()
@@ -119,7 +118,6 @@ namespace Project_S
         {
             ShowTileMap();
             DefaultRender();
-            //UiManager.GetInstance().Show();
         }
 
         private void DefaultRender()
@@ -230,6 +228,9 @@ namespace Project_S
             {
                 case (int)State.Descison:
                     CreatePlayer();
+                    GameModeState.GetInstance().SetScene("Map01");
+                    EventManager.GetInstance().OnPlayerMoveEventAdd();
+                    Map01.GetInstance().Init();
                     break;
                 case (int)State.Reset:
                     name = null;

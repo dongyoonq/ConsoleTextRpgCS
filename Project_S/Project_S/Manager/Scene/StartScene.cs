@@ -65,7 +65,6 @@ namespace Project_S
 
             InputManager.GetInstance().ExecuteCommand();
 
-            //InputManager.GetInstance().PlayerInputHandle(tester);
         }
 
         public override void Update()
@@ -97,7 +96,6 @@ namespace Project_S
         {
             ShowTileMap();
             DefaultRender();
-            //UiManager.GetInstance().Show();
         }
 
         private void DefaultRender()

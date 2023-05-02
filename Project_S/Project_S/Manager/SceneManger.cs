@@ -29,6 +29,10 @@ namespace Project_S
                 return false;
             AddScene("PlayerCreateScene", PlayerCreateScene.GetInstance());
 
+            if (!Map01.GetInstance().Init())
+                return false;
+            AddScene("Map01", Map01.GetInstance());
+
             return true;
         }
 

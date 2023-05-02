@@ -10,6 +10,12 @@ namespace Project_S
         public struct Pos
         {
             public int x, y;
+
+            public Pos(int x, int y)
+            {
+                this.x = x;
+                this.y = y;
+            }
         }
 
         public enum Job
@@ -33,7 +39,7 @@ namespace Project_S
         public Job job = Job.None;  // 직업
 
         private Pos _pos;
-        public Pos pos { get { return _pos; } }
+        public Pos pos { get { return _pos; } set { _pos = value; } }
         public int posX { get { return _pos.x; } set { _pos.x = value; } }
         public int posY { get { return _pos.y; } set { _pos.y = value; } }
 

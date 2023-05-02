@@ -18,8 +18,6 @@ namespace Project_S
             return Inst ??= new GameModeState();
         }
 
-        //Player tester = new Player("동윤");
-
         public override void Input()
         {
             currScene?.Input();
