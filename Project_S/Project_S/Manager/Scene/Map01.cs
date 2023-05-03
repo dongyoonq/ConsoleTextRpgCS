@@ -39,6 +39,7 @@ namespace Project_S
         public override void Input()
         {
             InputManager.GetInstance().PlayerInputHandle(InGamePlayer);
+
         }
 
         public override void Update()

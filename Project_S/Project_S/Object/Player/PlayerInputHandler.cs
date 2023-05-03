@@ -8,8 +8,6 @@ namespace Project_S
 {
     public class PlayerInputHandler
     {
-        private ICommand _command;
-
         private static PlayerInputHandler Inst;
         public static PlayerInputHandler GetInstance()
         {
@@ -32,6 +30,19 @@ namespace Project_S
                     break;
                 case 's':
                     player.posY++;
+                    break;
+                case '1':
+                    Core.GetInstance().ChangeState(UiState.GetInstance());
+                    InventoryUI.GetInstance().show();
+                    break;
+                case '2':
+
+                    break;
+                case '3':
+
+                    break;
+                case '4':
+
                     break;
                 default:
                     break;

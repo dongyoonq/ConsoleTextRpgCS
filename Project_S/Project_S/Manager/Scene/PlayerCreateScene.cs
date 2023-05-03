@@ -229,7 +229,7 @@ namespace Project_S
                 case (int)State.Descison:
                     CreatePlayer();
                     GameModeState.GetInstance().SetScene("Map01");
-                    EventManager.GetInstance().OnPlayerMoveEventAdd();
+                    EventManager.GetInstance().OnPlayerInputEventAdd();
                     Map01.GetInstance().Init();
                     break;
                 case (int)State.Reset:

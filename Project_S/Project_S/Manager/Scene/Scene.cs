@@ -106,5 +106,20 @@ namespace Project_S
 
             return newMap;
         }
+
+        public override void Input()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Render()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
