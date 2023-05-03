@@ -27,7 +27,7 @@ namespace Project_S
             return Inst ??= new StartScene();
         }
 
-        public bool Init()
+        public override bool Init()
         {
             return SetMap(StringToChar(LoadFileToStringMap())) ? true : false;
         }

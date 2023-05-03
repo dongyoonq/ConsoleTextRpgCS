@@ -26,13 +26,14 @@ namespace Project_S
             return Inst ??= new Map01();
         }
 
-        public bool Init()
+        public override bool Init()
         {
             if (PlayerManager.GetInstance().playerList.Count != 0)
             {
                 InGamePlayer = PlayerManager.GetInstance().playerList[0];
                 InGamePlayer.pos = new Player.Pos(5, 8);
             }
+
             return SetMap(StringToChar(LoadFileToStringMap())) ? true : false;
         }
 
@@ -50,10 +51,10 @@ namespace Project_S
         {
             Console.Clear();
 
-            Show();
+            Show(this.InGamePlayer);
         }
 
-        protected override void Show()
+        protected override void Show(Player player)
         {
             ShowTileMap();
             DefaultRender();

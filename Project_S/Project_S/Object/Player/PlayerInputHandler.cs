@@ -31,9 +31,13 @@ namespace Project_S
                 case 's':
                     player.posY++;
                     break;
+                case 'k':
+                    player.inventory.list.Add(new NormalSword());
+                    break;
                 case '1':
+                    Console.Clear();
                     Core.GetInstance().ChangeState(UiState.GetInstance());
-                    InventoryUI.GetInstance().show();
+                    UiState.GetInstance().SetUi("Inventory");
                     break;
                 case '2':
 

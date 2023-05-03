@@ -1,7 +1,6 @@
 ﻿using Project_D;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,26 +8,28 @@ using static Project_D.TileObject;
 
 namespace Project_S
 {
-    public class Scene : GameState
+    public class UI : GameState
     {
+        protected static Player currPlayer;
         protected TileObject[,] tileMap;
-        protected static string sceneName;
+        protected static string uiName;
 
-        private static Scene Inst;
-        protected static Scene GetInstance()
+        private static UI Inst;
+        public static UI GetInstance()
         {
-            sceneName = "Default";
-            return Inst ??= new Scene();
+            uiName = "Default";
+            return Inst ??= new UI();
         }
 
-        public virtual bool Init() { return false; }
+        public virtual bool Init() 
+        {
+            if (PlayerManager.GetInstance().playerList.Count != 0)
+                currPlayer = PlayerManager.GetInstance().playerList[0];
+
+            return true; 
+        }
 
         public override void Input()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Update()
         {
             throw new NotImplementedException();
         }
@@ -38,7 +39,11 @@ namespace Project_S
             throw new NotImplementedException();
         }
 
-        protected virtual void Show(Player player) { }
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
         protected virtual void Show() { }
 
         protected virtual void ShowTileMap()
@@ -122,5 +127,6 @@ namespace Project_S
 
             return newMap;
         }
+
     }
 }

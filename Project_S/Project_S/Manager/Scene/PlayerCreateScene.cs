@@ -34,7 +34,7 @@ namespace Project_S
             return Inst ??= new PlayerCreateScene();
         }
 
-        public bool Init()
+        public override bool Init()
         {
             return SetMap(StringToChar(LoadFileToStringMap())) ? true : false;
         }
@@ -231,6 +231,7 @@ namespace Project_S
                     GameModeState.GetInstance().SetScene("Map01");
                     EventManager.GetInstance().OnPlayerInputEventAdd();
                     Map01.GetInstance().Init();
+                    UI.GetInstance().Init();
                     break;
                 case (int)State.Reset:
                     name = null;
