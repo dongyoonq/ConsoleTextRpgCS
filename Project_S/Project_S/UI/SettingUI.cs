@@ -78,11 +78,11 @@ namespace Project_S
                     prevTop = Console.GetCursorPosition().Top + 1;
             }
 
-            if (Console.CursorTop > (int)State.Save)
-            { prevTop = (int)State.Save; return; }
-
-            if (Console.CursorTop < (int)State.Back)
+            if (Console.CursorTop > (int)State.Back)
             { prevTop = (int)State.Back; return; }
+
+            if (Console.CursorTop < (int)State.Save)
+            { prevTop = (int)State.Save; return; }
         }
 
         public override void Render()

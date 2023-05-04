@@ -10,7 +10,7 @@ namespace Project_S
 {
     public class UI : GameState
     {
-        protected static Player currPlayer;
+        public static Player currPlayer;
         protected TileObject[,] tileMap;
         protected static string uiName;
 

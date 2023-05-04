@@ -74,7 +74,6 @@ namespace Project_S
                 {
                     Console.WriteLine($"save file : {file}.dat not found.");
                 }
-
             }
 
             Console.WriteLine("Game loaded.");
@@ -83,10 +82,9 @@ namespace Project_S
         private void LoadPlayer(IMemento memento)
         {
             Player InGamePlayer = new Player("");
+            PlayerManager.GetInstance().Load(InGamePlayer, memento as PlayerMemento);
             PlayerManager.GetInstance().playerList.Add(InGamePlayer);
             EventManager.GetInstance().OnPlayerInputEventAdd();
-
-            UI.GetInstance().Init();
         }
 
         private void LoadState(IMemento memento)

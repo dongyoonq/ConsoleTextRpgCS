@@ -35,10 +35,7 @@ namespace Project_S
                     player.inventory.list.Add(new NormalSword());
                     break;
                 case '1':
-                    Console.Clear();
-                    Game.GetInstance().ChangeState(UiState.GetInstance());
-                    UiState.GetInstance().SetUi("Inventory");
-                    UiState.GetInstance().prevState = gameState;
+                    InputInventory(gameState, player);
                     break;
                 case '2':
 
@@ -48,14 +45,29 @@ namespace Project_S
                     break;
                 case '4':
                 case '5':
-                    Console.Clear();
-                    Game.GetInstance().ChangeState(UiState.GetInstance());
-                    UiState.GetInstance().SetUi("Setting");
-                    UiState.GetInstance().prevState = gameState;
+                    InputSetting(gameState, player);
                     break;
                 default:
                     break;
             }
+        }
+
+        private void InputInventory(GameState gameState, Player player)
+        {
+            Console.Clear();
+            UI.currPlayer = player;
+            Game.GetInstance().ChangeState(UiState.GetInstance());
+            UiState.GetInstance().SetUi("Inventory");
+            UiState.GetInstance().prevState = gameState;
+        }
+
+        private void InputSetting(GameState gameState, Player player)
+        {
+            Console.Clear();
+            UI.currPlayer = player;
+            Game.GetInstance().ChangeState(UiState.GetInstance());
+            UiState.GetInstance().SetUi("Setting");
+            UiState.GetInstance().prevState = gameState;
         }
     }
 }

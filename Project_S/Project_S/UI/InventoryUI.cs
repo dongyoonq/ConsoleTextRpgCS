@@ -25,6 +25,14 @@ namespace Project_S
         public override void Input()
         {
             var key = Console.ReadKey();
+
+            switch(key.Key)
+            {
+                case ConsoleKey.Backspace:
+                    Console.Clear();
+                    Game.GetInstance().ChangeState(UiState.GetInstance().prevState);
+                    break;
+            }
         }
 
         public override void Update()
