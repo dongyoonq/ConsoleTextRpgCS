@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Project_S
 {
+    [Serializable]
     public class Inventory
     {
         public List<Item> list;

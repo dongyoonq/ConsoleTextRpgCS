@@ -13,6 +13,7 @@ namespace Project_S
         public new static InventoryUI GetInstance()
         {
             uiName = "Inventory";
+
             return Inst ??= new InventoryUI();
         }
 

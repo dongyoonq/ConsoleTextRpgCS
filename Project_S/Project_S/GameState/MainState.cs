@@ -24,6 +24,7 @@ namespace Project_S
             "　　　　■　　　　　　　　　　　　　　　　　　　　　　　■",
             "　　　　■　　　　　　　　　　　　　　　　　　　　　　　■",
             "　　　　■■■■■■■■■■■■■■■■■■■■■■■■■" };
+
         private int prevTop = 6;
         bool Up = false;
         bool ArrowKeyDown = false;
@@ -159,11 +160,11 @@ namespace Project_S
             {
                 case (int)State.GameMode:
                     Console.Clear();
-                    Core.GetInstance().ChangeState(GameModeState.GetInstance());
+                    Game.GetInstance().ChangeState(GameModeState.GetInstance());
                     GameModeState.GetInstance().SetScene("StartScene");
                     break;
                 case (int)State.LoadGame:
-                    Core.GetInstance().ChangeState(null);
+                    LoadGame();
                     break;
                 case (int)State.Exit:
                     Environment.Exit(0);
@@ -171,6 +172,11 @@ namespace Project_S
                 default:
                     break;
             }
+        }
+
+        private void LoadGame()
+        {
+            SaveManager.GetInstance().Load();
         }
     }
 }

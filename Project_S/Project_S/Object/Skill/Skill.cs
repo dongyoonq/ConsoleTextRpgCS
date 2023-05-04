@@ -5,6 +5,7 @@ using System.Text;
 namespace Project_S
 {
     // Skill 클래스
+    [Serializable]
     public abstract class Skill
     {
         public string Name { get; set; }

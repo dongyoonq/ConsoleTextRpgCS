@@ -9,10 +9,11 @@ using static Project_D.TileObject;
 
 namespace Project_S
 {
+    [Serializable]
     public class Scene : GameState
     {
         protected TileObject[,] tileMap;
-        protected static string sceneName;
+        public static string sceneName;
 
         private static Scene Inst;
         protected static Scene GetInstance()

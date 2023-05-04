@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Project_S
 {
+    [Serializable]
     internal class NormalSword : Weapon
     {
         public NormalSword()

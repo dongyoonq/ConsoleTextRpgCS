@@ -8,6 +8,7 @@ namespace Project_D
     /// 타일 정보에 따라 콘솔에 출력될 문자를 GetTileToChar() 메소드에서 설정하며, 각 타일 정보에 맞는 색상도 설정합니다.
     /// 즉, 이 클래스는 게임에서 오브젝트의 위치와 타일 정보를 관리하고, 해당 오브젝트가 콘솔에 어떻게 출력될지 결정하는 역할을 합니다.
     /// </summary>
+    [Serializable]
     public class TileObject
     {
         public enum TILE
@@ -18,6 +19,7 @@ namespace Project_D
             DEFAULT
         }
 
+        [Serializable]
         public struct Pos
         {
             public int x;

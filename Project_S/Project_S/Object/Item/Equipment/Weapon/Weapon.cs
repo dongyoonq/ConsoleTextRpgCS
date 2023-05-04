@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Project_S
 {
+    [Serializable]
     abstract class Weapon : Equipment
     {
         protected int attackPoint;

@@ -5,6 +5,7 @@ using System.Text;
 namespace Project_S
 {
     // Item 클래스
+    [Serializable]
     public abstract class Item
     {
         public ItemType type;
@@ -18,6 +19,11 @@ namespace Project_S
         }
 
         public string name;
+
+        protected Item()
+        {
+        }
+
         abstract public void use();
     }
 }

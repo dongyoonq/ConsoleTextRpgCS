@@ -18,14 +18,14 @@ namespace Project_S
         public static UI GetInstance()
         {
             uiName = "Default";
+            if (PlayerManager.GetInstance().playerList.Count != 0)
+                currPlayer = PlayerManager.GetInstance().playerList[0];
+
             return Inst ??= new UI();
         }
 
         public virtual bool Init() 
         {
-            if (PlayerManager.GetInstance().playerList.Count != 0)
-                currPlayer = PlayerManager.GetInstance().playerList[0];
-
             return true; 
         }
 

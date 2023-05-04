@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Project_S
 {
+    [Serializable]
     public abstract class Equipment : Item
     {
         public int requireLevel;

@@ -10,6 +10,7 @@ using System.Xml.Linq;
 
 namespace Project_S
 {
+    [Serializable]
     public class Map01 : Scene
     {
         private Player InGamePlayer;
@@ -39,7 +40,7 @@ namespace Project_S
 
         public override void Input()
         {
-            InputManager.GetInstance().PlayerInputHandle(InGamePlayer);
+            InputManager.GetInstance().PlayerInputHandle(InGamePlayer, this);
 
         }
 

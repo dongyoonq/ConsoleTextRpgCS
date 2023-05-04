@@ -11,6 +11,7 @@ namespace Project_S
     public class UiState : GameState
     {
         private UI crrUi;
+        public GameState prevState;
 
         private static UiState Inst;
         public static UiState GetInstance()

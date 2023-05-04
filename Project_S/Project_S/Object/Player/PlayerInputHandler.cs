@@ -15,7 +15,7 @@ namespace Project_S
         }
 
         // 플레이어 콘솔 입력 이벤트 핸들러
-        public void OnKeyPressed(Player player, char key)
+        public void OnKeyPressed(Player player, char key, GameState gameState)
         {
             switch (key)
             {
@@ -36,8 +36,9 @@ namespace Project_S
                     break;
                 case '1':
                     Console.Clear();
-                    Core.GetInstance().ChangeState(UiState.GetInstance());
+                    Game.GetInstance().ChangeState(UiState.GetInstance());
                     UiState.GetInstance().SetUi("Inventory");
+                    UiState.GetInstance().prevState = gameState;
                     break;
                 case '2':
 
@@ -46,7 +47,11 @@ namespace Project_S
 
                     break;
                 case '4':
-
+                case '5':
+                    Console.Clear();
+                    Game.GetInstance().ChangeState(UiState.GetInstance());
+                    UiState.GetInstance().SetUi("Setting");
+                    UiState.GetInstance().prevState = gameState;
                     break;
                 default:
                     break;

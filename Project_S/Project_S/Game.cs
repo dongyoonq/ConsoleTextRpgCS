@@ -4,13 +4,26 @@ using System.Text;
 
 namespace Project_S
 {
-    public class Core
+    public class Game
     {
         private GameState currentState;
-        private static Core Inst;
-        public static Core GetInstance()
+
+        private static Game Inst;
+        public static Game GetInstance()
         {
-            return Inst ??= new Core();
+            return Inst ??= new Game();
+        }
+
+        public void Run()
+        {
+            while (true)
+            {
+                Input();
+
+                Update();
+
+                Render();
+            }
         }
 
         public bool Init()
@@ -58,18 +71,6 @@ namespace Project_S
             currentState.Render();
 
             return true;
-        }
-
-        public void Run()
-        {
-            while(true)
-            {
-                Input();
-
-                Update();
-
-                Render();
-            }
         }
 
         public virtual void Input()

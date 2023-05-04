@@ -5,8 +5,34 @@ using System.Text;
 namespace Project_S
 {
     // Player 클래스
+    [Serializable]
     public class Player
     {
+        // 플레이어 상태 클래스
+        public class PlayerState
+        {
+            public int level;
+            public Player.Job job;
+            public Player.Pos pos;
+            public Status status;
+            public Inventory inventory;
+            public Dictionary<Item.ItemType, Equipment> wearingEquip;
+            public List<Skill> skills;
+
+            public PlayerState(int level, Player.Job job, Player.Pos pos, Status status, 
+                Inventory inventory, Dictionary<Item.ItemType, Equipment> wearingEquip, List<Skill> skills)
+            {
+                this.level = level;
+                this.job = job;
+                this.pos = pos;
+                this.status = status;
+                this.inventory = inventory;
+                this.wearingEquip = wearingEquip;
+                this.skills = skills;
+            }
+        }
+
+        [Serializable]
         public struct Pos
         {
             public int x, y;
@@ -18,6 +44,7 @@ namespace Project_S
             }
         }
 
+        [Serializable]
         public enum Job
         {
             None,
@@ -117,6 +144,47 @@ namespace Project_S
             }
             else
                 Console.WriteLine("무기를 착용중이지 않습니다.");
+        }
+    }
+
+    // 플레이어 메멘토 클래스
+    [Serializable]
+    public class PlayerMemento : IMemento
+    {
+        private readonly string _name;
+        private readonly int _level;
+        private readonly Player.Job _job;
+        private readonly Player.Pos _pos;
+        private readonly Status _status;
+        private readonly Inventory _inventory;
+        private readonly Dictionary<Item.ItemType, Equipment> _wearingEquip;
+        private readonly List<Skill> _skills;
+
+        public PlayerMemento(Player player)
+        {
+            _name = player.nickname;
+            _level = player.level;
+            _job = player.job;
+            _pos = player.pos;
+            _status = player.status;
+            _inventory = player.inventory;
+            _wearingEquip = player.wearingEquip;
+            _skills = player.skills;
+        }
+
+        public string GetName()
+        {
+            return _name;
+        }
+
+        public string GetDate()
+        {
+            return DateTime.Now.ToString();
+        }
+
+        public Player.PlayerState GetPlayerState()
+        {
+            return new Player.PlayerState(_level, _job, _pos, _status, _inventory, _wearingEquip, _skills);
         }
     }
 }

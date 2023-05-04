@@ -174,7 +174,7 @@ namespace Project_S
                     break;
                 case (int)State.Back:
                     ResetMap();
-                    Core.GetInstance().ChangeState(MainState.GetInstance());
+                    Game.GetInstance().ChangeState(MainState.GetInstance());
                     break;
                 case (int)State.Exit:
                     Environment.Exit(0);
