@@ -109,14 +109,14 @@ namespace Project_S
                 Console.WriteLine(tile[i]);
             }
 
-            Console.SetCursorPosition(25, 3);
+            Console.SetCursorPosition(24, 3);
             Console.ForegroundColor = ConsoleColor.Cyan;
 
             Console.WriteLine(" ※ Main Menu ※\n");
 
             if (prevTop == (int)State.GameMode)
             {
-                Console.SetCursorPosition(27, prevTop);
+                Console.SetCursorPosition(24, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write(" ▶ Game Mode");
             }
@@ -129,7 +129,7 @@ namespace Project_S
 
             if (prevTop == (int)State.LoadGame)
             {
-                Console.SetCursorPosition(27, prevTop);
+                Console.SetCursorPosition(24, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write(" ▶ Load Game");
             }
@@ -142,7 +142,7 @@ namespace Project_S
 
             if (prevTop == (int)State.Exit)
             {
-                Console.SetCursorPosition(29, prevTop);
+                Console.SetCursorPosition(26, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write(" ▶ Exit");
             }
@@ -160,6 +160,7 @@ namespace Project_S
             {
                 case (int)State.GameMode:
                     Console.Clear();
+                    prevTop = 6;
                     Game.GetInstance().ChangeState(GameModeState.GetInstance());
                     GameModeState.GetInstance().SetScene("StartScene");
                     break;
@@ -176,6 +177,7 @@ namespace Project_S
 
         private void LoadGame()
         {
+            prevTop = 6;
             SaveManager.GetInstance().Load();
         }
     }

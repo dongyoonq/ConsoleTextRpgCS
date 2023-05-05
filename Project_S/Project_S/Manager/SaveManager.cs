@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace Project_S
@@ -36,9 +37,28 @@ namespace Project_S
                 }
             }
 
-            Console.SetCursorPosition(27, 3);
-            Console.WriteLine("Game saved.");
-            Task.Delay(1000);
+            for(int i = 0; i < 6; i++)
+            {
+                Console.Clear();
+                Console.SetCursorPosition(33, 3);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Save Loading");
+
+                for (int j = 0; j < i % 3 + 1; j++)
+                {
+                    Console.Write(".");
+                }
+
+                System.Threading.Thread.Sleep(1000);
+
+            }
+
+            Console.Clear();
+            Console.SetCursorPosition(30, 3);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Game Save Completed !");
+            Console.ForegroundColor = ConsoleColor.White;
+            System.Threading.Thread.Sleep(2000);
         }
 
         // 저장된 게임 상태를 불러옴
@@ -47,6 +67,8 @@ namespace Project_S
             string path = Directory.GetCurrentDirectory();
 
             string[] files = Directory.GetFiles(path, "*.dat");
+
+            Game.GetInstance().Init();
 
             foreach (string file in files)
             {
@@ -76,7 +98,28 @@ namespace Project_S
                 }
             }
 
-            Console.WriteLine("Game loaded.");
+
+            for (int i = 0; i < 6; i++)
+            {
+                Console.Clear();
+                Console.SetCursorPosition(33, 3);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("SaveFile Loading");
+
+                for (int j = 0; j < i % 3 + 1; j++)
+                {
+                    Console.Write(".");
+                }
+
+                System.Threading.Thread.Sleep(1000);
+            }
+
+            Console.Clear();
+            Console.SetCursorPosition(30, 3);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Game Load Completed !");
+            Console.ForegroundColor = ConsoleColor.White;
+            System.Threading.Thread.Sleep(2000);
         }
 
         private void LoadPlayer(IMemento memento)

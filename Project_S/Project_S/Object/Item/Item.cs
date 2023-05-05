@@ -25,5 +25,6 @@ namespace Project_S
         }
 
         abstract public void use();
+        abstract public void Explain(int CursorXPos, int CursorYPos);
     }
 }

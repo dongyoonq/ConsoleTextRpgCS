@@ -135,6 +135,19 @@ namespace Project_S
             UnEquipEvent?.Invoke(this, equipment);
         }
 
+        public void useItem(Item item)
+        {
+            if(inventory.list.Contains(item))
+            {
+                item.use();
+                RemoveItemFromInventory(item);
+            }
+            else
+            {
+                Console.SetCursorPosition(Console.GetCursorPosition().Left, Console.GetCursorPosition().Top);
+                Console.WriteLine("인벤토리에 해당 아이템이 없습니다.");
+            }
+        }
 
         public virtual void UseWeapon()
         {

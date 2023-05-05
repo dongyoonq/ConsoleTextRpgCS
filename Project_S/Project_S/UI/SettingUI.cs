@@ -16,7 +16,9 @@ namespace Project_S
         private enum State
         {
             Save = 6,
-            Back = 8
+            Back = 8,
+            Main = 10,
+            Exit = 12,
         }
 
         private static SettingUI Inst;
@@ -69,7 +71,6 @@ namespace Project_S
 
         public override void Update()
         {
-            // 메인 상태에서의 Update 처리
             if (ArrowKeyDown)
             {
                 if (Up)
@@ -78,8 +79,8 @@ namespace Project_S
                     prevTop = Console.GetCursorPosition().Top + 1;
             }
 
-            if (Console.CursorTop > (int)State.Back)
-            { prevTop = (int)State.Back; return; }
+            if (Console.CursorTop > (int)State.Exit)
+            { prevTop = (int)State.Exit; return; }
 
             if (Console.CursorTop < (int)State.Save)
             { prevTop = (int)State.Save; return; }
@@ -102,20 +103,20 @@ namespace Project_S
         {
             if (prevTop == (int)State.Save)
             {
-                Console.SetCursorPosition(27, prevTop);
+                Console.SetCursorPosition(24, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write(" ▶ 게임 세이브");
             }
             else
             {
-                Console.SetCursorPosition(27, (int)State.Save);
+                Console.SetCursorPosition(26, (int)State.Save);
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.Write(" 게임 세이브");
             }
 
             if (prevTop == (int)State.Back)
             {
-                Console.SetCursorPosition(27, prevTop);
+                Console.SetCursorPosition(25, prevTop);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write(" ▶ 돌아가기");
             }
@@ -124,6 +125,32 @@ namespace Project_S
                 Console.SetCursorPosition(27, (int)State.Back);
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.Write(" 돌아가기");
+            }
+
+            if (prevTop == (int)State.Main)
+            {
+                Console.SetCursorPosition(25, prevTop);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(" ▶ 메인메뉴");
+            }
+            else
+            {
+                Console.SetCursorPosition(27, (int)State.Main);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Write(" 메인메뉴");
+            }
+
+            if (prevTop == (int)State.Exit)
+            {
+                Console.SetCursorPosition(27, prevTop);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(" ▶ 종료");
+            }
+            else
+            {
+                Console.SetCursorPosition(29, (int)State.Exit);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Write(" 종료");
             }
         }
 
@@ -155,10 +182,12 @@ namespace Project_S
                 case (int)State.Back:
                     Game.GetInstance().ChangeState(UiState.GetInstance().prevState);
                     break;
-                    /*
+                case (int)State.Main:
+                    Game.GetInstance().ChangeState(MainState.GetInstance());
+                    break;
                 case (int)State.Exit:
                     Environment.Exit(0);
-                    break;*/
+                    break;
                 default:
                     break;
             }

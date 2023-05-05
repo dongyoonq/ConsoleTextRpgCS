@@ -35,5 +35,25 @@ namespace Project_S
         {
             Console.WriteLine($"{this.name}을 휘두른다.");
         }
+
+        public override void Explain(int CursorXPos, int CursorYPos)
+        {
+            string[] explain =
+            {
+                $"[ {name} ]",
+                "",
+                $"평범한 검이다.",
+                $"공격력 : {attackPoint}",
+                $"공격속도 : {attackSpeed}",
+                $"요구레벨 : {requireLevel}",
+                $"착용 가능 직업 : {requireJob = GetJobType()}",
+            };
+
+            foreach( string exp in explain )
+            {
+                Console.WriteLine(exp);
+                Console.SetCursorPosition(CursorXPos, ++CursorYPos);
+            }
+        }
     }
 }

@@ -24,6 +24,10 @@ namespace Project_S
             player.status.AttackSpeed = attackSpeed;
         }
 
+        public override void Explain(int CursorXPos, int CursorYPos)
+        {
+        }
+
         public override void RemoveStatusModifier(Player player)
         {
             player.status.AttackPoint -= attackPoint;

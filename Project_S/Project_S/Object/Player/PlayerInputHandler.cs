@@ -32,7 +32,10 @@ namespace Project_S
                     player.posY++;
                     break;
                 case 'k':
-                    player.inventory.list.Add(new NormalSword());
+                    player.AddItemToInventory(new NormalSword());
+                    break;
+                case 'p':
+                    player.AddItemToInventory(new HpPortion());
                     break;
                 case '1':
                     InputInventory(gameState, player);
@@ -56,18 +59,18 @@ namespace Project_S
         {
             Console.Clear();
             UI.currPlayer = player;
-            Game.GetInstance().ChangeState(UiState.GetInstance());
             UiState.GetInstance().SetUi("Inventory");
             UiState.GetInstance().prevState = gameState;
+            Game.GetInstance().ChangeState(UiState.GetInstance());
         }
 
         private void InputSetting(GameState gameState, Player player)
         {
             Console.Clear();
             UI.currPlayer = player;
-            Game.GetInstance().ChangeState(UiState.GetInstance());
             UiState.GetInstance().SetUi("Setting");
             UiState.GetInstance().prevState = gameState;
+            Game.GetInstance().ChangeState(UiState.GetInstance());
         }
     }
 }

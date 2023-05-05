@@ -8,6 +8,8 @@ namespace Project_S
 {
     public class PlayerEquipHandler
     {
+        private Queue<string> result = new Queue<string>();
+
         private static PlayerEquipHandler Inst;
         public static PlayerEquipHandler GetInstance()
         {
@@ -23,9 +25,12 @@ namespace Project_S
         /// <param name="equipment"></param>
         public void OnEquip(object sender, Equipment equipment)
         {
+            int CursorStartX = Console.GetCursorPosition().Left;
+            int CursorStartY = Console.GetCursorPosition().Top;
+
             Player player = sender as Player;
 
-            Console.WriteLine($"{equipment.name} 장착 시도");
+            result.Enqueue($"{equipment.name} 장착 시도");
 
             // 들어온 아이템이없으면 빠져나온다.
             if (equipment == null)
@@ -34,7 +39,12 @@ namespace Project_S
             // 들어온 아이템이 인벤토리에 없으면 빠져나온다.
             if (!player.inventory.list.Contains(equipment))
             {
-                Console.WriteLine($"{equipment.name}가 인벤토리에 없습니다.");
+                result.Enqueue($"{equipment.name}가 인벤토리에 없습니다.");
+                while(result.Count  > 0)
+                {
+                    Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                    Console.WriteLine(result.Dequeue());
+                }
                 return;
             }
 
@@ -52,7 +62,12 @@ namespace Project_S
                             {
                                 if (weapon.weaponType == Weapon.WeaponType.Common)
                                     break;
-                                Console.WriteLine("검, 공용무기가 아니면 착용 불가능합니다.");
+                                result.Enqueue("검, 공용무기가 아니면 착용 불가능합니다.");
+                                while (result.Count > 0)
+                                {
+                                    Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                                    Console.WriteLine(result.Dequeue());
+                                }
                                 return;
                             }
                         }
@@ -69,7 +84,12 @@ namespace Project_S
                             {
                                 if (weapon.weaponType == Weapon.WeaponType.Common)
                                     break;
-                                Console.WriteLine("활, 공용무기가 아니면 착용 불가능합니다.");
+                                result.Enqueue("활, 공용무기가 아니면 착용 불가능합니다.");
+                                while (result.Count > 0)
+                                {
+                                    Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                                    Console.WriteLine(result.Dequeue());
+                                }
                                 return;
                             }
                         }
@@ -86,7 +106,12 @@ namespace Project_S
                             {
                                 if (weapon.weaponType == Weapon.WeaponType.Common)
                                     break;
-                                Console.WriteLine("지팡이, 공용무기가 아니면 착용 불가능합니다.");
+                                result.Enqueue("지팡이, 공용무기가 아니면 착용 불가능합니다.");
+                                while (result.Count > 0)
+                                {
+                                    Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                                    Console.WriteLine(result.Dequeue());
+                                }
                                 return;
                             }
                         }
@@ -103,7 +128,12 @@ namespace Project_S
                             {
                                 if (weapon.weaponType == Weapon.WeaponType.Common)
                                     break;
-                                Console.WriteLine("단도, 공용무기가 아니면 착용 불가능합니다.");
+                                result.Enqueue("단도, 공용무기가 아니면 착용 불가능합니다.");
+                                while (result.Count > 0)
+                                {
+                                    Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                                    Console.WriteLine(result.Dequeue());
+                                }
                                 return;
                             }
                         }
@@ -118,7 +148,12 @@ namespace Project_S
                             Weapon weapon = (Weapon)equipment;
                             if (weapon.weaponType != Weapon.WeaponType.Common)
                             {
-                                Console.WriteLine("공용무기가 아니면 착용 불가능합니다.");
+                                result.Enqueue("공용무기가 아니면 착용 불가능합니다.");
+                                while (result.Count > 0)
+                                {
+                                    Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                                    Console.WriteLine(result.Dequeue());
+                                }
                                 return;
                             }
                         }
@@ -131,7 +166,12 @@ namespace Project_S
             // 장비요구 레벨보다 현재 레벨이 작으면 착용 불가
             if (player.level < equipment.requireLevel)
             {
-                Console.WriteLine("착용레벨이 낮아 착용 불가능합니다.");
+                result.Enqueue("착용레벨이 낮아 착용 불가능합니다.");
+                while (result.Count > 0)
+                {
+                    Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                    Console.WriteLine(result.Dequeue());
+                }
                 return;
             }
 
@@ -143,9 +183,15 @@ namespace Project_S
             player.inventory.list.Remove(equipment);
             // 착용한 분위에 이 장비를 착용 시킨다.
             player.wearingEquip.Add(equipment.type, equipment);
-            Console.WriteLine($"{equipment.name} 장착");
+            result.Enqueue($"{equipment.name}를 장착 했습니다.");
             // 그 장비에 대한 스텟 적용
             equipment.ApplyStatusModifier(player);
+
+            while (result.Count > 0)
+            {
+                Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                Console.WriteLine(result.Dequeue());
+            }
         }
 
         /// <summary>
@@ -155,9 +201,9 @@ namespace Project_S
         /// <param name="equipment"></param>
         public void UnEquip(object sender, Equipment equipment)
         {
+            int CursorStartX = Console.GetCursorPosition().Left;
+            int CursorStartY = Console.GetCursorPosition().Top;
             Player player = sender as Player;
-
-            Console.WriteLine($"{equipment.name} 벗기 시도");
 
             // 들어온 아이템이없으면 빠져나온다.
             if (equipment == null)
@@ -166,7 +212,8 @@ namespace Project_S
             // 착용중인 부위에 아이템이 있으면
             if (player.wearingEquip.ContainsKey(equipment.type))
             {
-                Console.WriteLine($"착용중인 {player.wearingEquip[equipment.type].name} 벗음");
+                result.Enqueue($"착용중인 {player.wearingEquip[equipment.type].name} 벗기 시도");
+                result.Enqueue($"착용중인 {player.wearingEquip[equipment.type].name} 벗음");
                 // 인벤토리에 착용중인 장비를 넣어주고
                 player.inventory.list.Add(player.wearingEquip[equipment.type]);
                 // 착용중인 장비를 지워준다.
@@ -175,7 +222,14 @@ namespace Project_S
                 equipment.RemoveStatusModifier(player);
             }
             else
-                Console.WriteLine($"{equipment.type}를 장착하고 있지 않습니다.");
+            {
+                result.Enqueue($"{equipment.type}를 장착하고 있지 않습니다.");
+                while (result.Count > 0)
+                {
+                    Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                    Console.WriteLine(result.Dequeue());
+                }
+            }
         }
     }
 }
