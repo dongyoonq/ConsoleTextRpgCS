@@ -40,7 +40,7 @@ namespace Project_S
             for(int i = 0; i < 6; i++)
             {
                 Console.Clear();
-                Console.SetCursorPosition(33, 3);
+                Console.SetCursorPosition(31, 3);
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write("Save Loading");
 
@@ -54,7 +54,7 @@ namespace Project_S
             }
 
             Console.Clear();
-            Console.SetCursorPosition(30, 3);
+            Console.SetCursorPosition(29, 3);
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Game Save Completed !");
             Console.ForegroundColor = ConsoleColor.White;
@@ -102,7 +102,7 @@ namespace Project_S
             for (int i = 0; i < 6; i++)
             {
                 Console.Clear();
-                Console.SetCursorPosition(33, 3);
+                Console.SetCursorPosition(31, 3);
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write("SaveFile Loading");
 
@@ -115,7 +115,7 @@ namespace Project_S
             }
 
             Console.Clear();
-            Console.SetCursorPosition(30, 3);
+            Console.SetCursorPosition(29, 3);
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Game Load Completed !");
             Console.ForegroundColor = ConsoleColor.White;
@@ -128,6 +128,7 @@ namespace Project_S
             PlayerManager.GetInstance().Load(InGamePlayer, memento as PlayerMemento);
             PlayerManager.GetInstance().playerList.Add(InGamePlayer);
             EventManager.GetInstance().OnPlayerInputEventAdd();
+            EventManager.GetInstance().OnPlayerEquipEventAdd();
         }
 
         private void LoadState(IMemento memento)

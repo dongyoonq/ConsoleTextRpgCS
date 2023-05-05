@@ -308,7 +308,7 @@ namespace Project_S
                 itemUseFlag = false;
                 CompleteSelect = 0;
                 prevLeft = tileStartXSize; prevTop = tileStartYSize;
-                System.Threading.Thread.Sleep(2800);
+                System.Threading.Thread.Sleep(3000);
                 Render();
                 return;
             }

@@ -158,6 +158,14 @@ namespace Project_S
             else
                 Console.WriteLine("무기를 착용중이지 않습니다.");
         }
+
+        public static bool CheckAddEquipEvent()
+        {
+            if (EquipEvent != null && UnEquipEvent != null && EquipEvent.GetInvocationList().Length > 0 && UnEquipEvent.GetInvocationList().Length > 0)
+                return true;
+
+            return false;
+        }
     }
 
     // 플레이어 메멘토 클래스

@@ -38,5 +38,13 @@ namespace Project_S
         {
             _command?.Execute();
         }
+
+        public bool CheckAddPlayerMoveEvent()
+        {
+            if(PlayerKeyPressed != null && PlayerKeyPressed.GetInvocationList().Length > 0)
+                return true;
+
+            return false;
+        }
     }
 }

@@ -229,7 +229,6 @@ namespace Project_S
                 case (int)State.Descison:
                     CreatePlayer();
                     GameModeState.GetInstance().SetScene("Map01");
-                    EventManager.GetInstance().OnPlayerInputEventAdd();
                     Map01.GetInstance().Init();
                     UI.GetInstance().Init();
                     break;
@@ -252,7 +251,13 @@ namespace Project_S
         private void CreatePlayer()
         {
             Player player = new Player(this.name);
-            PlayerManager.GetInstance().playerList.Add(player);
+            if(PlayerManager.GetInstance().playerList.Count > 0)
+                PlayerManager.GetInstance().playerList[0] = player;
+            else
+                PlayerManager.GetInstance().playerList.Add(player);
+            EventManager.GetInstance().OnPlayerInputEventAdd();
+            EventManager.GetInstance().OnPlayerEquipEventAdd();
+            ResetMap();
         }
 
         private string GetNickname()

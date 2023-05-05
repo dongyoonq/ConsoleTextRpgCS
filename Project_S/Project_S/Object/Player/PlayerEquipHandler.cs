@@ -30,7 +30,7 @@ namespace Project_S
 
             Player player = sender as Player;
 
-            result.Enqueue($"{equipment.name} 장착 시도");
+            result.Enqueue($"{equipment.name}를 장착한다.");
 
             // 들어온 아이템이없으면 빠져나온다.
             if (equipment == null)
@@ -212,7 +212,7 @@ namespace Project_S
             // 착용중인 부위에 아이템이 있으면
             if (player.wearingEquip.ContainsKey(equipment.type))
             {
-                result.Enqueue($"착용중인 {player.wearingEquip[equipment.type].name} 벗기 시도");
+                result.Enqueue($"현재 착용중인 {player.wearingEquip[equipment.type].name} 벗는다.");
                 result.Enqueue($"착용중인 {player.wearingEquip[equipment.type].name} 벗음");
                 // 인벤토리에 착용중인 장비를 넣어주고
                 player.inventory.list.Add(player.wearingEquip[equipment.type]);
@@ -220,6 +220,7 @@ namespace Project_S
                 player.wearingEquip.Remove(equipment.type);
                 // 스텟 미적용
                 equipment.RemoveStatusModifier(player);
+                return;
             }
             else
             {
@@ -229,6 +230,7 @@ namespace Project_S
                     Console.SetCursorPosition(CursorStartX, ++CursorStartY);
                     Console.WriteLine(result.Dequeue());
                 }
+                return;
             }
         }
     }
