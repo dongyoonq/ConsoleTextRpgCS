@@ -12,6 +12,8 @@ namespace Project_S
     [Serializable]
     public class Scene : GameState
     {
+        public static Player InGamePlayer;
+
         protected TileObject[,] tileMap;
         public static string sceneName;
 

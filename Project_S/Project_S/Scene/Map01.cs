@@ -13,13 +13,6 @@ namespace Project_S
     [Serializable]
     public class Map01 : Scene
     {
-        private Player InGamePlayer;
-
-        private enum State
-        {
-
-        }
-
         private static Map01 Inst;
         public new static Map01 GetInstance()
         {
@@ -52,10 +45,10 @@ namespace Project_S
         {
             Console.Clear();
 
-            Show(this.InGamePlayer);
+            Show();
         }
 
-        protected override void Show(Player player)
+        protected override void Show()
         {
             ShowTileMap();
             DefaultRender();

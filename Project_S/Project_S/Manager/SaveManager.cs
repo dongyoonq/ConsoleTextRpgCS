@@ -127,6 +127,8 @@ namespace Project_S
             Player InGamePlayer = new Player("");
             PlayerManager.GetInstance().Load(InGamePlayer, memento as PlayerMemento);
             PlayerManager.GetInstance().playerList.Add(InGamePlayer);
+            Scene.InGamePlayer = InGamePlayer;
+
             EventManager.GetInstance().OnPlayerInputEventAdd();
             EventManager.GetInstance().OnPlayerEquipEventAdd();
         }
