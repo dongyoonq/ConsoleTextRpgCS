@@ -41,7 +41,7 @@ namespace Project_S
                     InputInventory(gameState, player);
                     break;
                 case '2':
-
+                    InputEquipment(gameState, player);
                     break;
                 case '3':
 
@@ -60,6 +60,15 @@ namespace Project_S
             Console.Clear();
             UI.currPlayer = player;
             UiState.GetInstance().SetUi("Inventory");
+            UiState.GetInstance().prevState = gameState;
+            Game.GetInstance().ChangeState(UiState.GetInstance());
+        }
+
+        private void InputEquipment(GameState gameState, Player player)
+        {
+            Console.Clear();
+            UI.currPlayer = player;
+            UiState.GetInstance().SetUi("Equipment");
             UiState.GetInstance().prevState = gameState;
             Game.GetInstance().ChangeState(UiState.GetInstance());
         }

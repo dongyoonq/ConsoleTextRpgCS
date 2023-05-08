@@ -115,7 +115,6 @@ namespace Project_S
         protected override void Show()
         {
             ShowTileMap();
-            DefaultRender();
         }
 
         private void DefaultRender()
