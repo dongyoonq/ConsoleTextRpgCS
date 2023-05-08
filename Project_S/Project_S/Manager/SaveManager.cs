@@ -37,6 +37,7 @@ namespace Project_S
                 }
             }
 
+            /* // 로딩 표시
             for(int i = 0; i < 6; i++)
             {
                 Console.Clear();
@@ -51,7 +52,7 @@ namespace Project_S
 
                 System.Threading.Thread.Sleep(1000);
 
-            }
+            }*/
 
             Console.Clear();
             Console.SetCursorPosition(29, 3);
@@ -98,7 +99,7 @@ namespace Project_S
                 }
             }
 
-
+            /* // 로딩 표시
             for (int i = 0; i < 6; i++)
             {
                 Console.Clear();
@@ -112,7 +113,7 @@ namespace Project_S
                 }
 
                 System.Threading.Thread.Sleep(1000);
-            }
+            }*/
 
             Console.Clear();
             Console.SetCursorPosition(29, 3);

@@ -26,7 +26,23 @@ namespace Project_S
 
         public override void Explain(int CursorXPos, int CursorYPos)
         {
+            string[] explain =
+{
+                $"[ {name} ]",
+                "",
+                $"불속성 검이다.",
+                $"휘두르면 불을쓰는 이펙트가 발생한다.",
+                $"공격력 : {attackPoint}",
+                $"공격속도 : {attackSpeed}",
+                $"요구레벨 : {requireLevel}",
+                $"착용 가능 직업 : {requireJob = GetJobType()}",
+            };
 
+            foreach (string exp in explain)
+            {
+                Console.WriteLine(exp);
+                Console.SetCursorPosition(CursorXPos, ++CursorYPos);
+            }
         }
 
         public override void RemoveStatusModifier(Player player)

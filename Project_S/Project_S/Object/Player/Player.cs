@@ -55,7 +55,7 @@ namespace Project_S
         }
 
         // 이벤트 정의
-        public delegate void EquipEventHandler(object sender, Equipment equipment);
+        public delegate void EquipEventHandler(object sender, Equipment equipment, ref int cursorLeft, ref int cursorTop);
         public static event EquipEventHandler EquipEvent;
         public static event EquipEventHandler UnEquipEvent;
 
@@ -121,18 +121,18 @@ namespace Project_S
         /// 장비 착용 메서드
         /// </summary>
         /// <param name="equipment"></param>
-        public void Equip(Equipment equipment)
+        public void Equip(Equipment equipment, ref int cursorLeft, ref int cursorTop)
         {
-            EquipEvent?.Invoke(this, equipment);
+            EquipEvent?.Invoke(this, equipment, ref cursorLeft, ref cursorTop);
         }
 
         /// <summary>
         /// 장비 벗는 메서드
         /// </summary>
         /// <param name="equipment"></param>
-        public void UnEquip(Equipment equipment)
+        public void UnEquip(Equipment equipment, ref int cursorLeft, ref int cursorTop)
         {
-            UnEquipEvent?.Invoke(this, equipment);
+            UnEquipEvent?.Invoke(this, equipment, ref cursorLeft, ref cursorTop);
         }
 
         public void useItem(Item item)

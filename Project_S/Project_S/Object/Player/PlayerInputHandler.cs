@@ -34,8 +34,11 @@ namespace Project_S
                 case 'k':
                     player.AddItemToInventory(new NormalSword());
                     break;
+                case 'f':
+                    player.AddItemToInventory(new FireSword());
+                    break;
                 case 'p':
-                    player.AddItemToInventory(new HpPortion());
+                    player.AddItemToInventory(new HpPotion());
                     break;
                 case '1':
                     InputInventory(gameState, player);

@@ -63,7 +63,7 @@ namespace Project_S
             tileMap = new TileObject[map.GetLength(0), map.GetLength(1)];
             // 맵에 빈공간이나, 정해놓은 문자 이외 다른 문자가 들어갔을 경우 false를 리턴
             foreach (char c in map)
-                if (string.IsNullOrEmpty(c.ToString()) && c != '■' && c != '　' && c != '▩' && c != '□' && c != '▣' && c != '―')
+                if (string.IsNullOrEmpty(c.ToString()) && c != '■' && c != '　' && c != '▩' && c != '□' && c != '▣' && c != '―' && c != '▥')
                     return false;
 
             for (int y = 0; y < tileMap.GetLength(0); y++)
@@ -92,6 +92,9 @@ namespace Project_S
                             break;
                         case '―':
                             tileMap[y,x].tile = TILE.UIWall;
+                            break;
+                        case '▥':
+                            tileMap[y, x].tile = TILE.UIWall_2;
                             break;
                         default:
                             break;

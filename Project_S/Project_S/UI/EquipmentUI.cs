@@ -10,19 +10,31 @@ namespace Project_S
     public class EquipmentUI : UI
     {
         public int prevTop;
-        public int prevLeft;
 
-        const int tileStartXSize = 16;
         const int tileStartYSize = 4;
         const int tileEndYSize = 16;
-        Key keyDown;
+        Key keyDown = Key.Default;
+
+        private enum ItemPos
+        {
+            Weapon = 4,
+            Armor = 6,
+            Bottom = 8,
+            Glove = 10,
+            Shoes = 12,
+        }
 
         bool startflag = false;
-        public bool itemUseFlag = false;
-        public bool selection = false;
-        public int CompleteSelect = 0;
+        public bool UnEquipFlag = false;
+        public bool EquipFlag = false;
+        public bool UnEquipSelection = false;
+        public bool EquipSelection = false;
+        public int CompleteUnEquipSelect = 0;
+        public int CompleteEquipSelect = 0;
 
+        private Item.ItemType startPos;
         private Item currPosItem;
+        public GameState tempState;
 
         public enum Key
         {
@@ -68,7 +80,7 @@ namespace Project_S
                     break;
                 case ConsoleKey.Backspace:
                     Console.Clear();
-                    prevLeft = tileStartXSize; prevTop = tileStartYSize;
+                    prevTop = tileStartYSize;
                     Game.GetInstance().ChangeState(UiState.GetInstance().prevState);
                     keyDown = Key.Back;
                     break;
@@ -86,6 +98,38 @@ namespace Project_S
 
         public override void Update()
         {
+            if (!startflag)
+            {
+                if (currPlayer.wearingEquip.Count == 0)
+                { prevTop = 0;}
+                else
+                { 
+                    foreach (var item in currPlayer.wearingEquip)
+                    {
+                        startPos = item.Key;
+                        break;
+                    }
+
+                    switch(startPos)
+                    {
+                        case Item.ItemType.Weapon:
+                            prevTop = (int)ItemPos.Weapon; break;
+                        case Item.ItemType.Armor:
+                            prevTop = (int)ItemPos.Armor; break;
+                        case Item.ItemType.Bottom:
+                            prevTop = (int)ItemPos.Bottom; break;
+                        case Item.ItemType.Glove:
+                            prevTop = (int)ItemPos.Glove; break;
+                        case Item.ItemType.Shoes:
+                            prevTop = (int)ItemPos.Shoes; break;
+                        default:
+                            break;
+                    }
+                }
+
+                startflag = true;
+            }
+
             switch (keyDown)
             {
                 case Key.Up:
@@ -95,7 +139,10 @@ namespace Project_S
                     prevTop = Console.GetCursorPosition().Top + 1;
                     break;
                 case Key.Enter:
-                    itemUseFlag = true;
+                    if (currPosItem != null)
+                        UnEquipFlag = true;
+                    else
+                        EquipFlag = true;
                     break;
                 case Key.Delete:
                     return;
@@ -103,6 +150,10 @@ namespace Project_S
                     return;
             }
 
+            if (prevTop <= tileStartYSize)
+                prevTop = tileStartYSize;
+            else if (prevTop >= (int)ItemPos.Shoes)
+                prevTop = (int)ItemPos.Shoes;
         }
 
         public override void Render()
@@ -115,139 +166,324 @@ namespace Project_S
         protected override void Show()
         {
             ShowTileMap();
+            DefaultRender();
         }
 
         private void DefaultRender()
         {
-            Console.SetCursorPosition(24, 1);
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("[ 인벤토리 창 ]");
+            Console.SetCursorPosition(38, 1);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("[ 장비 창 ]");
 
-            int y = tileStartYSize, x = tileStartXSize;
-            foreach (var item in currPlayer.inventory.list)
+            // 장비 정보를 출력하는 조건문
+            if (currPlayer != null)
             {
-                Console.SetCursorPosition(x, y);
-                if (prevLeft == x && prevTop == y)
+                ////////////////////////////////////////////////////////////////////////////
+                Console.SetCursorPosition(10, (int)ItemPos.Weapon);
+
+                if (prevTop == (int)ItemPos.Weapon)
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"{item.name}");
-                    currPosItem = item;
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    if (currPlayer.wearingEquip.ContainsKey(Item.ItemType.Weapon))
+                        currPosItem = currPlayer.wearingEquip[Item.ItemType.Weapon];
+                    else
+                        currPosItem = null;
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine(item.name);
                 }
-                y += 2;
+                Console.Write("▶ 무기 : ");
 
-                if (y > tileEndYSize)
+                if (currPlayer.wearingEquip.ContainsKey(Item.ItemType.Weapon))
                 {
-                    y = 4; x += 12;
+                    if (prevTop == (int)ItemPos.Weapon)
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                    else
+                        Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(currPlayer.wearingEquip[Item.ItemType.Weapon].name);
+                }
+                else
+                    Console.WriteLine(string.Empty);
+                ////////////////////////////////////////////////////////////////////////////
+                Console.SetCursorPosition(10, (int)ItemPos.Armor);
+
+                if (prevTop == (int)ItemPos.Armor)
+                {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    if (currPlayer.wearingEquip.ContainsKey(Item.ItemType.Armor))
+                        currPosItem = currPlayer.wearingEquip[Item.ItemType.Armor];
+                    else
+                        currPosItem = null;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+
+                Console.Write("▶ 갑옷 : ");
+
+                if (currPlayer.wearingEquip.ContainsKey(Item.ItemType.Armor))
+                {
+                    if (prevTop == (int)ItemPos.Armor)
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                    else
+                        Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(currPlayer.wearingEquip[Item.ItemType.Armor].name);
+                }
+                else
+                    Console.WriteLine(string.Empty);
+                ////////////////////////////////////////////////////////////////////////////
+                Console.SetCursorPosition(10, (int)ItemPos.Bottom);
+
+                if (prevTop == (int)ItemPos.Bottom)
+                {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    if (currPlayer.wearingEquip.ContainsKey(Item.ItemType.Bottom))
+                        currPosItem = currPlayer.wearingEquip[Item.ItemType.Bottom];
+                    else
+                        currPosItem = null;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+
+                Console.Write("▶ 하의 : ");
+
+                if (currPlayer.wearingEquip.ContainsKey(Item.ItemType.Bottom))
+                {
+                    if (prevTop == (int)ItemPos.Bottom)
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                    else
+                        Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(currPlayer.wearingEquip[Item.ItemType.Bottom].name);
+                }
+                else
+                    Console.WriteLine(string.Empty);
+                ////////////////////////////////////////////////////////////////////////////
+                Console.SetCursorPosition(10, (int)ItemPos.Glove);
+
+                if (prevTop == (int)ItemPos.Glove)
+                {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    if (currPlayer.wearingEquip.ContainsKey(Item.ItemType.Glove))
+                        currPosItem = currPlayer.wearingEquip[Item.ItemType.Glove];
+                    else
+                        currPosItem = null;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+
+                Console.Write("▶ 장갑 : ");
+
+                if (currPlayer.wearingEquip.ContainsKey(Item.ItemType.Glove))
+                {
+                    if (prevTop == (int)ItemPos.Glove)
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                    else
+                        Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(currPlayer.wearingEquip[Item.ItemType.Glove].name);
+                }
+                else
+                    Console.WriteLine(string.Empty);
+                ////////////////////////////////////////////////////////////////////////////
+                Console.SetCursorPosition(10, (int)ItemPos.Shoes);
+
+                if (prevTop == (int)ItemPos.Shoes)
+                {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    if (currPlayer.wearingEquip.ContainsKey(Item.ItemType.Shoes))
+                        currPosItem = currPlayer.wearingEquip[Item.ItemType.Shoes];
+                    else
+                        currPosItem = null;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+
+                Console.Write("▶ 신발 : ");
+
+                if (currPlayer.wearingEquip.ContainsKey(Item.ItemType.Shoes))
+                {
+                    if (prevTop == (int)ItemPos.Shoes)
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                    else
+                        Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(currPlayer.wearingEquip[Item.ItemType.Shoes].name);
+                }
+                else
+                    Console.WriteLine(string.Empty);
+            }
+
+            // 현재 커서에 위치한 장비에 대한 설명 출력
+            ExplanationEquipment();
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(24, tileEndYSize + 9);
+
+            // 플래그에 따른 커서위치에 출력
+            if (!EquipFlag && !UnEquipFlag && !UnEquipSelection)
+            {
+                if (currPosItem != null)
+                {
+                    Console.WriteLine("Enter　:　장착해제　　　　방향키 : 이동");
+                    Console.SetCursorPosition(24, tileEndYSize + 10);
+                    Console.WriteLine("Del　　:  버리기");
+                    Console.SetCursorPosition(24, tileEndYSize + 12);
+                    Console.WriteLine("BackSpace　:　돌아가기");
+                }
+                else
+                {
+                    Console.WriteLine("Enter　:　장착　　　　　　방향키 : 이동");
+                    Console.SetCursorPosition(24, tileEndYSize + 11);
+                    Console.WriteLine("BackSpace　:　돌아가기");
                 }
             }
-
-            ExplanationItem();
-
-            Console.SetCursorPosition(22, tileEndYSize + 4);
-            Console.ForegroundColor = ConsoleColor.White;
-
-            if (currPlayer.inventory.list.Count == 0)
+            // 장착해제에 대한 출력
+            else if (UnEquipFlag && !UnEquipSelection)
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("가방이 비었습니다.");
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.SetCursorPosition(21, tileEndYSize + 6);
-                Console.WriteLine("BackSpace : 돌아가기");
-                return;
-            }
-
-            Console.SetCursorPosition(14, tileEndYSize + 4);
-            Console.ForegroundColor = ConsoleColor.White;
-
-            if (!itemUseFlag && !selection)
-            {
-                Console.WriteLine("Enter　:　사용하기　　　　방향키 : 이동");
-                Console.SetCursorPosition(14, tileEndYSize + 5);
-                Console.WriteLine("Del　　:  버리기");
-                Console.SetCursorPosition(14, tileEndYSize + 7);
-                Console.WriteLine("BackSpace　:　돌아가기");
-
-                Console.SetCursorPosition(prevLeft, prevTop);
-            }
-            else if (itemUseFlag && !selection)
-            {
-                Console.SetCursorPosition(17, tileEndYSize + 4);
+                Console.SetCursorPosition(28, tileEndYSize + 9);
                 Console.ForegroundColor = ConsoleColor.White;
 
-                selection = true;
+                UnEquipSelection = true;
 
-                if (currPosItem is Equipment)
-                    Console.WriteLine($"{currPosItem.name}를 장착 하시겠습니까?");
-                else
-                    Console.WriteLine($"{currPosItem.name}를 사용 하시겠습니까?");
+                Console.WriteLine($"{currPosItem.name}를 장착 해제하시겠습니까?");
 
-                if (selection)
+                if (UnEquipSelection)
                 {
                     Selection();
                 }
             }
-            else if (!itemUseFlag && selection)
+            else if (!UnEquipFlag && UnEquipSelection)
             {
-                Console.SetCursorPosition(17, tileEndYSize + 4);
+                Console.SetCursorPosition(28, tileEndYSize + 9);
                 Console.ForegroundColor = ConsoleColor.White;
 
-                if (currPosItem is Equipment)
-                    Console.WriteLine($"{currPosItem.name}를 장착 하시겠습니까?");
-                else
-                    Console.WriteLine($"{currPosItem.name}를 사용 하시겠습니까?");
+                Console.WriteLine($"{currPosItem.name}를 장착 해제하시겠습니까?");
             }
-            else if (selection && itemUseFlag && CompleteSelect > 0)
+            else if (UnEquipSelection && UnEquipFlag && CompleteUnEquipSelect > 0)
             {
-                Console.SetCursorPosition(17, tileEndYSize + 4);
+                Console.SetCursorPosition(17, tileEndYSize + 9);
                 Console.ForegroundColor = ConsoleColor.White;
 
-                if (currPosItem is Equipment)
-                {
-                    currPlayer.Equip(currPosItem as Equipment);
-                }
-                else
-                {
-                    Console.WriteLine($"{currPosItem.name}를 사용 했습니다.");
-                    Console.SetCursorPosition(17, tileEndYSize + 5);
-                    currPlayer.useItem(currPosItem);
-                }
+                int CursorLeft = 28;
+                int CursorTop = 25;
+                currPlayer.UnEquip(currPosItem as Equipment, ref CursorLeft, ref CursorTop);
 
-                selection = false;
-                itemUseFlag = false;
-                CompleteSelect = 0;
-                prevLeft = tileStartXSize; prevTop = tileStartYSize;
+                UnEquipSelection = false;
+                UnEquipFlag = false;
+                CompleteUnEquipSelect = 0;
+                prevTop = tileStartYSize;
                 System.Threading.Thread.Sleep(3000);
                 Render();
                 return;
             }
-            else if (selection && itemUseFlag && CompleteSelect < 0)
+            else if (UnEquipSelection && UnEquipFlag && CompleteUnEquipSelect < 0)
             {
-                Console.WriteLine("Enter : 사용하기     방향키 : 이동");
-                Console.SetCursorPosition(14, tileEndYSize + 5);
-                Console.WriteLine("BackSpace : 돌아가기");
+                if (currPosItem != null)
+                {
+                    Console.WriteLine("Enter　:　장착해제　　　　방향키 : 이동");
+                    Console.SetCursorPosition(24, tileEndYSize + 10);
+                    Console.WriteLine("Del　　:  버리기");
+                    Console.SetCursorPosition(24, tileEndYSize + 12);
+                    Console.WriteLine("BackSpace　:　돌아가기");
+                }
+                else
+                {
+                    Console.WriteLine("Enter　:　장착　　　　　　방향키 : 이동");
+                    Console.SetCursorPosition(24, tileEndYSize + 11);
+                    Console.WriteLine("BackSpace　:　돌아가기");
+                }
 
-                selection = false;
-                itemUseFlag = false;
-                CompleteSelect = 0;
+                UnEquipSelection = false;
+                UnEquipFlag = false;
+                CompleteUnEquipSelect = 0;
 
             }
-            else if (selection && itemUseFlag && CompleteSelect == 0)
+            else if (UnEquipSelection && UnEquipFlag && CompleteUnEquipSelect == 0)
             {
-                Console.SetCursorPosition(17, tileEndYSize + 4);
+                Console.SetCursorPosition(28, tileEndYSize + 9);
                 Console.ForegroundColor = ConsoleColor.White;
 
-                if (currPosItem is Equipment)
-                    Console.WriteLine($"{currPosItem.name}를 장착 하시겠습니까?");
+                Console.WriteLine($"{currPosItem.name}를 장착 해제하시겠습니까?");
+            }
+            // 장착에 대한 출력
+            else if (EquipFlag && !EquipSelection)
+            {
+                Console.SetCursorPosition(28, tileEndYSize + 9);
+                Console.ForegroundColor = ConsoleColor.White;
+
+                EquipSelection = true;
+
+                Console.WriteLine($"해당부위에 장착 하시겠습니까?");
+
+                if (EquipSelection)
+                {
+                    tempState = UiState.GetInstance().prevState;
+                    Selection();
+                }
+            }
+            else if (!EquipFlag && EquipSelection)
+            {
+                Console.SetCursorPosition(28, tileEndYSize + 9);
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.WriteLine($"해당부위에 장착 하시겠습니까?");
+            }
+            else if (EquipSelection && EquipFlag && CompleteEquipSelect > 0)
+            {
+                Console.SetCursorPosition(17, tileEndYSize + 9);
+                Console.ForegroundColor = ConsoleColor.White;
+
+                // 장착에 대한 처리
+
+
+                EquipSelection = false;
+                EquipFlag = false;
+                CompleteEquipSelect = 0;
+                prevTop = tileStartYSize;
+                keyDown = Key.Default;
+                UiState.GetInstance().prevState = tempState;
+                Game.GetInstance().RestartState();
+                return;
+            }
+            else if (EquipSelection && EquipFlag && CompleteEquipSelect < 0)
+            {
+                if (currPosItem != null)
+                {
+                    Console.WriteLine("Enter　:　장착해제　　　　방향키 : 이동");
+                    Console.SetCursorPosition(24, tileEndYSize + 10);
+                    Console.WriteLine("Del　　:  버리기");
+                    Console.SetCursorPosition(24, tileEndYSize + 12);
+                    Console.WriteLine("BackSpace　:　돌아가기");
+                }
                 else
-                    Console.WriteLine($"{currPosItem.name}를 사용 하시겠습니까?");
+                {
+                    Console.WriteLine("Enter　:　장착　　　　　　방향키 : 이동");
+                    Console.SetCursorPosition(24, tileEndYSize + 11);
+                    Console.WriteLine("BackSpace　:　돌아가기");
+                }
+
+                EquipSelection = false;
+                EquipFlag = false;
+                CompleteEquipSelect = 0;
+                keyDown = Key.Default;
+                UiState.GetInstance().prevState = tempState;
+                Game.GetInstance().RestartState();
+            }
+            else if (EquipSelection && EquipFlag && CompleteEquipSelect == 0)
+            {
+                Console.SetCursorPosition(28, tileEndYSize + 9);
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.WriteLine($"해당부위에 장착 하시겠습니까?");
             }
 
-            Console.SetCursorPosition(prevLeft, prevTop);
+            Console.SetCursorPosition(10, prevTop);
         }
 
         protected override string LoadFileToStringMap()
@@ -269,18 +505,18 @@ namespace Project_S
 
         private void Selection()
         {
-            SelectState.GetInstance().prevState = this;
-            SelectState.GetInstance().DefaultRender();
-            Game.GetInstance().ChangeState(SelectState.GetInstance());
+            EquipmentSelectState.GetInstance().prevState = this;
+            EquipmentSelectState.GetInstance().DefaultRender();
+            Game.GetInstance().ChangeState(EquipmentSelectState.GetInstance());
+            Game.GetInstance().RestartState();
         }
 
-        private void ExplanationItem()
+        private void ExplanationEquipment()
         {
-            if (currPlayer.inventory.list.Count == 0) { return; }
+            if (currPlayer.wearingEquip.Count == 0 || currPosItem == null) { return; }
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.SetCursorPosition(60, tileStartYSize);
-            currPosItem.Explain(60, tileStartYSize);
-
+            Console.SetCursorPosition(36, tileStartYSize + 1);
+            currPosItem.Explain(36, tileStartYSize + 1);
         }
     }
 }

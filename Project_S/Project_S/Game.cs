@@ -7,6 +7,7 @@ namespace Project_S
     public class Game
     {
         private GameState currentState;
+        private bool reset = false;
 
         private static Game Inst;
         public static Game GetInstance()
@@ -75,18 +76,24 @@ namespace Project_S
 
         public virtual void Input()
         {
+            if (reset)
+                reset = false;
             // 현재 상태에서 Input처리
             currentState.Input();
         }
 
         public virtual void Update()
         {
+            if (reset)
+                return;
             // 현재 상태에서 Update처리
             currentState.Update();
         }
 
         public virtual void Render()
         {
+            if (reset)
+                return;
             // 현재 상태에서 Render처리
             currentState.Render();
         }
@@ -95,7 +102,11 @@ namespace Project_S
         {
             // 상태 변경 메서드
             currentState = newState;
+        }
 
+        public void RestartState()
+        {
+            reset = true;
         }
     }
 }

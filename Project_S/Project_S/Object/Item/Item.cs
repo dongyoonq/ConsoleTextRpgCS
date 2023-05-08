@@ -13,7 +13,10 @@ namespace Project_S
         public enum ItemType
         {
             Weapon,
-            Aromor,
+            Armor,
+            Bottom,
+            Shoes,
+            Glove,
             Portion,
             Other
         }

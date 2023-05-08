@@ -5,7 +5,7 @@ using System.Text;
 namespace Project_S
 {
     [Serializable]
-    public abstract class Portion : Item
+    public abstract class Potion : Item
     {
         protected int value;
     }

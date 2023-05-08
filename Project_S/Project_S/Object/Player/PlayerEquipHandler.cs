@@ -8,7 +8,7 @@ namespace Project_S
 {
     public class PlayerEquipHandler
     {
-        private Queue<string> result = new Queue<string>();
+        private Queue<string> result;
 
         private static PlayerEquipHandler Inst;
         public static PlayerEquipHandler GetInstance()
@@ -23,10 +23,9 @@ namespace Project_S
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="equipment"></param>
-        public void OnEquip(object sender, Equipment equipment)
+        public void OnEquip(object sender, Equipment equipment, ref int cursorLeft, ref int cursorTop)
         {
-            int CursorStartX = Console.GetCursorPosition().Left;
-            int CursorStartY = Console.GetCursorPosition().Top;
+            result = new Queue<string>();
 
             Player player = sender as Player;
 
@@ -42,7 +41,7 @@ namespace Project_S
                 result.Enqueue($"{equipment.name}가 인벤토리에 없습니다.");
                 while(result.Count  > 0)
                 {
-                    Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                    Console.SetCursorPosition(cursorLeft ,cursorTop++);
                     Console.WriteLine(result.Dequeue());
                 }
                 return;
@@ -65,7 +64,7 @@ namespace Project_S
                                 result.Enqueue("검, 공용무기가 아니면 착용 불가능합니다.");
                                 while (result.Count > 0)
                                 {
-                                    Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                                    Console.SetCursorPosition(cursorLeft, cursorTop++);
                                     Console.WriteLine(result.Dequeue());
                                 }
                                 return;
@@ -87,7 +86,7 @@ namespace Project_S
                                 result.Enqueue("활, 공용무기가 아니면 착용 불가능합니다.");
                                 while (result.Count > 0)
                                 {
-                                    Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                                    Console.SetCursorPosition(cursorLeft, cursorTop++);
                                     Console.WriteLine(result.Dequeue());
                                 }
                                 return;
@@ -109,7 +108,7 @@ namespace Project_S
                                 result.Enqueue("지팡이, 공용무기가 아니면 착용 불가능합니다.");
                                 while (result.Count > 0)
                                 {
-                                    Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                                    Console.SetCursorPosition(cursorLeft, cursorTop++);
                                     Console.WriteLine(result.Dequeue());
                                 }
                                 return;
@@ -131,7 +130,7 @@ namespace Project_S
                                 result.Enqueue("단도, 공용무기가 아니면 착용 불가능합니다.");
                                 while (result.Count > 0)
                                 {
-                                    Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                                    Console.SetCursorPosition(cursorLeft, cursorTop++);
                                     Console.WriteLine(result.Dequeue());
                                 }
                                 return;
@@ -151,7 +150,7 @@ namespace Project_S
                                 result.Enqueue("공용무기가 아니면 착용 불가능합니다.");
                                 while (result.Count > 0)
                                 {
-                                    Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                                    Console.SetCursorPosition(cursorLeft, cursorTop++);
                                     Console.WriteLine(result.Dequeue());
                                 }
                                 return;
@@ -169,7 +168,7 @@ namespace Project_S
                 result.Enqueue("착용레벨이 낮아 착용 불가능합니다.");
                 while (result.Count > 0)
                 {
-                    Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                    Console.SetCursorPosition(cursorLeft, cursorTop++);
                     Console.WriteLine(result.Dequeue());
                 }
                 return;
@@ -177,7 +176,14 @@ namespace Project_S
 
             // 들어온 아이템이 그 부위에 착용중이면 장비를 벗는다.
             if (player.wearingEquip.ContainsKey(equipment.type))
-                player.UnEquip(player.wearingEquip[equipment.type]);
+            {
+                while (result.Count > 0)
+                {
+                    Console.SetCursorPosition(cursorLeft, cursorTop++);
+                    Console.WriteLine(result.Dequeue());
+                }
+                player.UnEquip(player.wearingEquip[equipment.type], ref cursorLeft, ref cursorTop);
+            }
 
             // 인벤토리에 장비를 지우고
             player.inventory.list.Remove(equipment);
@@ -189,7 +195,7 @@ namespace Project_S
 
             while (result.Count > 0)
             {
-                Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                Console.SetCursorPosition(cursorLeft, cursorTop++);
                 Console.WriteLine(result.Dequeue());
             }
         }
@@ -199,10 +205,10 @@ namespace Project_S
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="equipment"></param>
-        public void UnEquip(object sender, Equipment equipment)
+        public void UnEquip(object sender, Equipment equipment, ref int cursorLeft, ref int cursorTop)
         {
-            int CursorStartX = Console.GetCursorPosition().Left;
-            int CursorStartY = Console.GetCursorPosition().Top;
+            result = new Queue<string>();
+
             Player player = sender as Player;
 
             // 들어온 아이템이없으면 빠져나온다.
@@ -220,6 +226,11 @@ namespace Project_S
                 player.wearingEquip.Remove(equipment.type);
                 // 스텟 미적용
                 equipment.RemoveStatusModifier(player);
+                while (result.Count > 0)
+                {
+                    Console.SetCursorPosition(cursorLeft, cursorTop++);
+                    Console.WriteLine(result.Dequeue());
+                }
                 return;
             }
             else
@@ -227,7 +238,7 @@ namespace Project_S
                 result.Enqueue($"{equipment.type}를 장착하고 있지 않습니다.");
                 while (result.Count > 0)
                 {
-                    Console.SetCursorPosition(CursorStartX, ++CursorStartY);
+                    Console.SetCursorPosition(cursorLeft, cursorTop++);
                     Console.WriteLine(result.Dequeue());
                 }
                 return;

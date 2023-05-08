@@ -8,7 +8,7 @@ namespace Project_S
     {
         protected Armor()
         {
-            type = ItemType.Aromor;
+            type = ItemType.Armor;
         }
     }
 }

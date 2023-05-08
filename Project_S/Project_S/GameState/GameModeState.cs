@@ -68,8 +68,6 @@ namespace Project_S
         }
     }
 
-
-    // 플레이어 메멘토 클래스
     [Serializable]
     public class GameStateMemento : IMemento
     {

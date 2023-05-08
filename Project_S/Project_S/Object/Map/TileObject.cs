@@ -17,6 +17,7 @@ namespace Project_D
             WALL,
             PLAYER,
             UIWall,
+            UIWall_2,
             DEFAULT
         }
 
@@ -71,6 +72,9 @@ namespace Project_D
                     break;
                 case TILE.UIWall:
                     cTile = '―';
+                    break;
+                case TILE.UIWall_2:
+                    cTile = '▥';
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.Black;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,9 +13,9 @@ namespace Project_S
         public int prevTop;
         public int prevLeft;
 
-        const int tileStartXSize = 16;
-        const int tileStartYSize = 4;
-        const int tileEndYSize = 16;
+        public const int tileStartXSize = 16;
+        public const int tileStartYSize = 4;
+        public const int tileEndYSize = 16;
         Key keyDown;
 
         bool startflag = false;
@@ -77,11 +78,12 @@ namespace Project_S
                     keyDown = Key.Enter;
                     break;
                 case ConsoleKey.Backspace:
-                    Console.Clear();
-                    prevLeft = tileStartXSize; prevTop = tileStartYSize;
-                    Game.GetInstance().ChangeState(UiState.GetInstance().prevState);
-                    keyDown = Key.Back;
-                    break;
+                    ResetMap();
+                    if (EquipmentUI.GetInstance().EquipFlag)
+                        EquipmentUICallCancelEquip();
+                    else
+                        Game.GetInstance().ChangeState(UiState.GetInstance().prevState);
+                    return;
                 case ConsoleKey.Delete:
                     keyDown = Key.Delete;
                     break;
@@ -248,15 +250,15 @@ namespace Project_S
                 return;
             }
 
-            Console.SetCursorPosition(14, tileEndYSize + 4);
+            Console.SetCursorPosition(12, tileEndYSize + 4);
             Console.ForegroundColor = ConsoleColor.White;
 
             if (!itemUseFlag && !selection)
             {
                 Console.WriteLine("Enter　:　사용하기　　　　방향키 : 이동");
-                Console.SetCursorPosition(14, tileEndYSize + 5);
+                Console.SetCursorPosition(12, tileEndYSize + 5);
                 Console.WriteLine("Del　　:  버리기");
-                Console.SetCursorPosition(14, tileEndYSize + 7);
+                Console.SetCursorPosition(12, tileEndYSize + 7);
                 Console.WriteLine("BackSpace　:　돌아가기");
 
                 Console.SetCursorPosition(prevLeft, prevTop);
@@ -295,7 +297,9 @@ namespace Project_S
 
                 if (currPosItem is Equipment)
                 {
-                    currPlayer.Equip(currPosItem as Equipment);
+                    int CursorLeft = 14;
+                    int CursorTop = tileEndYSize + 3;
+                    currPlayer.Equip(currPosItem as Equipment, ref CursorLeft, ref CursorTop);
                 }
                 else
                 {
@@ -314,9 +318,11 @@ namespace Project_S
             }
             else if (selection && itemUseFlag && CompleteSelect < 0)
             {
-                Console.WriteLine("Enter : 사용하기     방향키 : 이동");
-                Console.SetCursorPosition(14, tileEndYSize + 5);
-                Console.WriteLine("BackSpace : 돌아가기");
+                Console.WriteLine("Enter　:　사용하기　　　　방향키 : 이동");
+                Console.SetCursorPosition(12, tileEndYSize + 5);
+                Console.WriteLine("Del　　:  버리기");
+                Console.SetCursorPosition(12, tileEndYSize + 7);
+                Console.WriteLine("BackSpace　:　돌아가기");
 
                 selection = false;
                 itemUseFlag = false;
@@ -351,7 +357,18 @@ namespace Project_S
 
         protected override void ResetMap()
         {
+            Console.Clear();
 
+            prevLeft = tileStartXSize; prevTop = tileStartYSize;
+
+            keyDown = Key.Default;
+
+            startflag = false;
+            itemUseFlag = false;
+            selection = false;
+            CompleteSelect = 0;
+
+            currPosItem = null;
         }
 
         private void UpdateItemList(out int listXSize, out int listYSize)
@@ -369,17 +386,30 @@ namespace Project_S
 
         private void Selection()
         {
-            SelectState.GetInstance().prevState = this;
-            SelectState.GetInstance().DefaultRender();
-            Game.GetInstance().ChangeState(SelectState.GetInstance());
+            InventorySelectState.GetInstance().prevState = this;
+            InventorySelectState.GetInstance().DefaultRender();
+            Game.GetInstance().ChangeState(InventorySelectState.GetInstance());
         }
 
         private void ExplanationItem()
         {
-            if(currPlayer.inventory.list.Count == 0) { return; }
+            if(currPlayer.inventory.list.Count == 0 || currPosItem == null) { return; }
             Console.ForegroundColor = ConsoleColor.Green;
             Console.SetCursorPosition(60, tileStartYSize);
             currPosItem.Explain(60, tileStartYSize);
+
+        }
+
+        private void EquipmentUICallCancelEquip()
+        {
+            EquipmentUI.GetInstance().Render();
+            Game.GetInstance().RestartState();
+            Game.GetInstance().ChangeState(EquipmentUI.GetInstance());
+            EquipmentUI.GetInstance().CompleteEquipSelect = -1;
+        }
+
+        private void EquipmentUICallEquip()
+        { 
 
         }
     }

@@ -5,9 +5,9 @@ using System.Text;
 namespace Project_S
 {
     [Serializable]
-    internal class HpPortion : Portion
+    internal class HpPotion : Potion
     {
-        public HpPortion()
+        public HpPotion()
         {
             name = "HpPortion";
             value = 20;
