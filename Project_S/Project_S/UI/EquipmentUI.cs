@@ -9,7 +9,7 @@ namespace Project_S
 {
     public class EquipmentUI : UI
     {
-        public int prevTop;
+        public int prevTop = (int)ItemPos.Weapon;
 
         const int tileStartYSize = 4;
         const int tileEndYSize = 16;
@@ -24,16 +24,16 @@ namespace Project_S
             Shoes = 12,
         }
 
-        bool startflag = false;
         public bool UnEquipFlag = false;
         public bool EquipFlag = false;
         public bool UnEquipSelection = false;
         public bool EquipSelection = false;
+
         public int CompleteUnEquipSelect = 0;
         public int CompleteEquipSelect = 0;
 
-        private Item.ItemType startPos;
         private Item currPosItem;
+        public Item.ItemType currPosType;
         public GameState tempState;
 
         public enum Key
@@ -98,38 +98,6 @@ namespace Project_S
 
         public override void Update()
         {
-            if (!startflag)
-            {
-                if (currPlayer.wearingEquip.Count == 0)
-                { prevTop = 0;}
-                else
-                { 
-                    foreach (var item in currPlayer.wearingEquip)
-                    {
-                        startPos = item.Key;
-                        break;
-                    }
-
-                    switch(startPos)
-                    {
-                        case Item.ItemType.Weapon:
-                            prevTop = (int)ItemPos.Weapon; break;
-                        case Item.ItemType.Armor:
-                            prevTop = (int)ItemPos.Armor; break;
-                        case Item.ItemType.Bottom:
-                            prevTop = (int)ItemPos.Bottom; break;
-                        case Item.ItemType.Glove:
-                            prevTop = (int)ItemPos.Glove; break;
-                        case Item.ItemType.Shoes:
-                            prevTop = (int)ItemPos.Shoes; break;
-                        default:
-                            break;
-                    }
-                }
-
-                startflag = true;
-            }
-
             switch (keyDown)
             {
                 case Key.Up:
@@ -188,11 +156,13 @@ namespace Project_S
                         currPosItem = currPlayer.wearingEquip[Item.ItemType.Weapon];
                     else
                         currPosItem = null;
+                    currPosType = Item.ItemType.Weapon;
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.White;
                 }
+
                 Console.Write("▶ 무기 : ");
 
                 if (currPlayer.wearingEquip.ContainsKey(Item.ItemType.Weapon))
@@ -215,6 +185,7 @@ namespace Project_S
                         currPosItem = currPlayer.wearingEquip[Item.ItemType.Armor];
                     else
                         currPosItem = null;
+                    currPosType = Item.ItemType.Armor;
                 }
                 else
                 {
@@ -243,6 +214,7 @@ namespace Project_S
                         currPosItem = currPlayer.wearingEquip[Item.ItemType.Bottom];
                     else
                         currPosItem = null;
+                    currPosType = Item.ItemType.Bottom;
                 }
                 else
                 {
@@ -271,6 +243,7 @@ namespace Project_S
                         currPosItem = currPlayer.wearingEquip[Item.ItemType.Glove];
                     else
                         currPosItem = null;
+                    currPosType = Item.ItemType.Glove;
                 }
                 else
                 {
@@ -299,6 +272,7 @@ namespace Project_S
                         currPosItem = currPlayer.wearingEquip[Item.ItemType.Shoes];
                     else
                         currPosItem = null;
+                    currPosType = Item.ItemType.Shoes;
                 }
                 else
                 {
@@ -377,7 +351,8 @@ namespace Project_S
                 UnEquipSelection = false;
                 UnEquipFlag = false;
                 CompleteUnEquipSelect = 0;
-                prevTop = tileStartYSize;
+                prevTop = (int)ItemPos.Weapon;
+                Console.CursorTop = prevTop;
                 System.Threading.Thread.Sleep(3000);
                 Render();
                 return;
@@ -439,16 +414,8 @@ namespace Project_S
                 Console.SetCursorPosition(17, tileEndYSize + 9);
                 Console.ForegroundColor = ConsoleColor.White;
 
-                // 장착에 대한 처리
-
-
-                EquipSelection = false;
-                EquipFlag = false;
-                CompleteEquipSelect = 0;
-                prevTop = tileStartYSize;
-                keyDown = Key.Default;
-                UiState.GetInstance().prevState = tempState;
-                Game.GetInstance().RestartState();
+                Restart();
+                Console.CursorTop = prevTop;
                 return;
             }
             else if (EquipSelection && EquipFlag && CompleteEquipSelect < 0)
@@ -471,9 +438,6 @@ namespace Project_S
                 EquipSelection = false;
                 EquipFlag = false;
                 CompleteEquipSelect = 0;
-                keyDown = Key.Default;
-                UiState.GetInstance().prevState = tempState;
-                Game.GetInstance().RestartState();
             }
             else if (EquipSelection && EquipFlag && CompleteEquipSelect == 0)
             {
@@ -501,6 +465,29 @@ namespace Project_S
         protected override void ResetMap()
         {
 
+        }
+
+        public void Restart()
+        {
+            if(CompleteEquipSelect >= 0)
+                prevTop = (int)ItemPos.Weapon;
+
+            keyDown = Key.Default;
+
+            UnEquipFlag = false;
+            EquipFlag = false;
+            UnEquipSelection = false;
+            EquipSelection = false;
+
+            CompleteUnEquipSelect = 0;
+            CompleteEquipSelect = 0;
+
+            currPosItem = null;
+            currPosType = Item.ItemType.Other;
+            UiState.GetInstance().prevState = tempState;
+
+            Render();
+            Game.GetInstance().RestartState();
         }
 
         private void Selection()

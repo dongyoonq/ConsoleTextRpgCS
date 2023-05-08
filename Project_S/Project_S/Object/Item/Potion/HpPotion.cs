@@ -10,6 +10,7 @@ namespace Project_S
         public HpPotion()
         {
             name = "HpPortion";
+            type = ItemType.Potion;
             value = 20;
 
             if (!ItemManager.GetInstance().itemTable.ContainsKey(this.name))

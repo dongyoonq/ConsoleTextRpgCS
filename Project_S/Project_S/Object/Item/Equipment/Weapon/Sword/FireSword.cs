@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Project_S
 {
+    [Serializable]
     internal class FireSword : Weapon
     {
         public FireSword()
@@ -34,8 +35,8 @@ namespace Project_S
                 $"휘두르면 불을쓰는 이펙트가 발생한다.",
                 $"공격력 : {attackPoint}",
                 $"공격속도 : {attackSpeed}",
-                $"요구레벨 : {requireLevel}",
-                $"착용 가능 직업 : {requireJob = GetJobType()}",
+                $"요구레벨 : {requireLevel} (현재레벨 : {Scene.InGamePlayer.level})",
+                $"착용 가능 직업 : {requireJob = GetJobType()} (현재직업 : {Scene.InGamePlayer.jobName})",
             };
 
             foreach (string exp in explain)

@@ -9,6 +9,7 @@ namespace Project_S
         public Archer(string name) : base(name)
         {
             job = Job.Archer;
+            jobName = GetJobType();
             status.MaxHp = 1100;
             status.MaxMp = 100;
             skills.Add(new ExplosiveArrow());

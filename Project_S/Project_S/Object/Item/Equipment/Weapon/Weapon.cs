@@ -10,7 +10,6 @@ namespace Project_S
         protected int attackPoint;
         protected int magicPoint;
         protected double attackSpeed;
-        protected string requireJob;
         public WeaponType weaponType;
 
         protected Weapon()
@@ -18,13 +17,14 @@ namespace Project_S
             type = ItemType.Weapon;
         }
 
+        [Flags]
         public enum WeaponType
         {
-            Common,
-            Sword,
-            Staff,
-            Bow,
-            Dagger
+            Common = Sword | Bow | Staff | Dagger,
+            Sword = 1 << 0,
+            Bow = 1 << 1,
+            Staff = 1 << 2,
+            Dagger = 1 << 3,
         }
 
         protected string GetJobType()

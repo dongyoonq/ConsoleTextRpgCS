@@ -9,6 +9,7 @@ namespace Project_S
         public Warrior(string name) : base(name)
         {
             job = Job.Warrior;
+            jobName = GetJobType();
             status.MaxHp = 1600;
             status.MaxMp = 50;
         }

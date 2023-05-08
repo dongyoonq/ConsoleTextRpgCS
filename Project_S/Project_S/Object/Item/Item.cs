@@ -17,7 +17,7 @@ namespace Project_S
             Bottom,
             Shoes,
             Glove,
-            Portion,
+            Potion,
             Other
         }
 

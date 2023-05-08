@@ -23,17 +23,17 @@ namespace Project_S
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="equipment"></param>
-        public void OnEquip(object sender, Equipment equipment, ref int cursorLeft, ref int cursorTop)
+        public bool OnEquip(Equipment equipment, ref int cursorLeft, ref int cursorTop)
         {
             result = new Queue<string>();
 
-            Player player = sender as Player;
+            Player player = Scene.InGamePlayer;
 
             result.Enqueue($"{equipment.name}를 장착한다.");
 
             // 들어온 아이템이없으면 빠져나온다.
             if (equipment == null)
-                return;
+                return false;
 
             // 들어온 아이템이 인벤토리에 없으면 빠져나온다.
             if (!player.inventory.list.Contains(equipment))
@@ -44,118 +44,81 @@ namespace Project_S
                     Console.SetCursorPosition(cursorLeft ,cursorTop++);
                     Console.WriteLine(result.Dequeue());
                 }
-                return;
+                return false;
             }
 
             // 플레이어 클래스(직업)별 장비의 다른 처리
-            switch (player)
+            switch (player.jobName)
             {
-                // 플레이어가 전사일때, 들어온 아이템이 칼, 공용타입이 아니면 착용 불가
-                case Warrior:
-                    if (equipment.type == Item.ItemType.Weapon)
+                case "전사":
+                    if (equipment.requireJob != "전사" && equipment.requireJob != "공용")
                     {
-                        if (equipment is Weapon)
+                        result.Enqueue($"플레이어의 직업은 : \"{player.jobName}\"인데");
+                        result.Enqueue($"해당 장비의 착용가능 직업이 : \"{equipment.requireJob}\"이므로");
+                        result.Enqueue("해당 장비는 착용 불가능합니다.");
+                        while (result.Count > 0)
                         {
-                            Weapon weapon = (Weapon)equipment;
-                            if (weapon.weaponType != Weapon.WeaponType.Sword)
-                            {
-                                if (weapon.weaponType == Weapon.WeaponType.Common)
-                                    break;
-                                result.Enqueue("검, 공용무기가 아니면 착용 불가능합니다.");
-                                while (result.Count > 0)
-                                {
-                                    Console.SetCursorPosition(cursorLeft, cursorTop++);
-                                    Console.WriteLine(result.Dequeue());
-                                }
-                                return;
-                            }
+                            Console.SetCursorPosition(cursorLeft, cursorTop++);
+                            Console.WriteLine(result.Dequeue());
                         }
+                        return false;
                     }
                     break;
-                // 플레이어가 궁수일때, 들어온 아이템이 활, 공용타입이 아니면 착용 불가
-                case Archer:
-                    if (equipment.type == Item.ItemType.Weapon)
+                case "궁수":
+                    if (equipment.requireJob != "궁수" && equipment.requireJob != "공용")
                     {
-                        if (equipment is Weapon)
+                        result.Enqueue($"플레이어의 직업은 : \"{player.jobName}\"인데");
+                        result.Enqueue($"해당 장비의 착용가능 직업이 : \"{equipment.requireJob}\"이므로");
+                        result.Enqueue("해당 장비는 착용 불가능합니다.");
+                        while (result.Count > 0)
                         {
-                            Weapon weapon = (Weapon)equipment;
-                            if (weapon.weaponType != Weapon.WeaponType.Bow)
-                            {
-                                if (weapon.weaponType == Weapon.WeaponType.Common)
-                                    break;
-                                result.Enqueue("활, 공용무기가 아니면 착용 불가능합니다.");
-                                while (result.Count > 0)
-                                {
-                                    Console.SetCursorPosition(cursorLeft, cursorTop++);
-                                    Console.WriteLine(result.Dequeue());
-                                }
-                                return;
-                            }
+                            Console.SetCursorPosition(cursorLeft, cursorTop++);
+                            Console.WriteLine(result.Dequeue());
                         }
+                        return false;
                     }
                     break;
-                // 플레이어가 법사일때, 들어온 아이템이 지팡이, 공용타입이 아니면 착용 불가
-                case Mage:
-                    if (equipment.type == Item.ItemType.Weapon)
+                case "법사":
+                    if (equipment.requireJob != "법사" && equipment.requireJob != "공용")
                     {
-                        if (equipment is Weapon)
+                        result.Enqueue($"플레이어의 직업은 : \"{player.jobName}\"인데");
+                        result.Enqueue($"해당 장비의 착용가능 직업이 : \"{equipment.requireJob}\"이므로");
+                        result.Enqueue("해당 장비는 착용 불가능합니다.");
+                        while (result.Count > 0)
                         {
-                            Weapon weapon = (Weapon)equipment;
-                            if (weapon.weaponType != Weapon.WeaponType.Staff)
-                            {
-                                if (weapon.weaponType == Weapon.WeaponType.Common)
-                                    break;
-                                result.Enqueue("지팡이, 공용무기가 아니면 착용 불가능합니다.");
-                                while (result.Count > 0)
-                                {
-                                    Console.SetCursorPosition(cursorLeft, cursorTop++);
-                                    Console.WriteLine(result.Dequeue());
-                                }
-                                return;
-                            }
+                            Console.SetCursorPosition(cursorLeft, cursorTop++);
+                            Console.WriteLine(result.Dequeue());
                         }
+                        return false;
                     }
                     break;
-                // 플레이어가 도적일때, 들어온 아이템이 단도, 공용타입이 아니면 착용 불가
-                case Thief:
-                    if (equipment.type == Item.ItemType.Weapon)
+                case "도적":
+                    if (equipment.requireJob != "도적" && equipment.requireJob != "공용")
                     {
-                        if (equipment is Weapon)
+                        result.Enqueue($"플레이어의 직업은 : \"{player.jobName}\"인데");
+                        result.Enqueue($"해당 장비의 착용가능 직업이 : \"{equipment.requireJob}\"이므로");
+                        result.Enqueue("해당 장비는 착용 불가능합니다.");
+                        while (result.Count > 0)
                         {
-                            Weapon weapon = (Weapon)equipment;
-                            if (weapon.weaponType != Weapon.WeaponType.Dagger)
-                            {
-                                if (weapon.weaponType == Weapon.WeaponType.Common)
-                                    break;
-                                result.Enqueue("단도, 공용무기가 아니면 착용 불가능합니다.");
-                                while (result.Count > 0)
-                                {
-                                    Console.SetCursorPosition(cursorLeft, cursorTop++);
-                                    Console.WriteLine(result.Dequeue());
-                                }
-                                return;
-                            }
+                            Console.SetCursorPosition(cursorLeft, cursorTop++);
+                            Console.WriteLine(result.Dequeue());
                         }
+                        return false;
                     }
                     break;
                 // 플레이어가 플레이어일때, 들어온 아이템이 공용타입이 아니면 착용 불가
-                case Player:
-                    if (equipment.type == Item.ItemType.Weapon)
+                case "초보자":
+                    if (equipment.requireJob != "공용")
                     {
-                        if (equipment is Weapon)
+                        result.Enqueue($"플레이어의 직업은 : \"{player.jobName}\"인데");
+                        result.Enqueue($"해당 장비의 착용가능 직업이 : \"{equipment.requireJob}\"이므로");
+                        result.Enqueue("해당 장비는 착용 불가능합니다.");
+                        while (result.Count > 0)
                         {
-                            Weapon weapon = (Weapon)equipment;
-                            if (weapon.weaponType != Weapon.WeaponType.Common)
-                            {
-                                result.Enqueue("공용무기가 아니면 착용 불가능합니다.");
-                                while (result.Count > 0)
-                                {
-                                    Console.SetCursorPosition(cursorLeft, cursorTop++);
-                                    Console.WriteLine(result.Dequeue());
-                                }
-                                return;
-                            }
+                            Console.SetCursorPosition(cursorLeft, cursorTop++);
+                            Console.WriteLine(result.Dequeue());
                         }
+                        return false;
                     }
                     break;
                 default:
@@ -171,7 +134,7 @@ namespace Project_S
                     Console.SetCursorPosition(cursorLeft, cursorTop++);
                     Console.WriteLine(result.Dequeue());
                 }
-                return;
+                return false; 
             }
 
             // 들어온 아이템이 그 부위에 착용중이면 장비를 벗는다.
@@ -198,6 +161,8 @@ namespace Project_S
                 Console.SetCursorPosition(cursorLeft, cursorTop++);
                 Console.WriteLine(result.Dequeue());
             }
+
+            return true;
         }
 
         /// <summary>
@@ -205,15 +170,15 @@ namespace Project_S
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="equipment"></param>
-        public void UnEquip(object sender, Equipment equipment, ref int cursorLeft, ref int cursorTop)
+        public bool UnEquip(Equipment equipment, ref int cursorLeft, ref int cursorTop)
         {
             result = new Queue<string>();
 
-            Player player = sender as Player;
+            Player player = Scene.InGamePlayer;
 
             // 들어온 아이템이없으면 빠져나온다.
             if (equipment == null)
-                return;
+                return false;
 
             // 착용중인 부위에 아이템이 있으면
             if (player.wearingEquip.ContainsKey(equipment.type))
@@ -231,7 +196,7 @@ namespace Project_S
                     Console.SetCursorPosition(cursorLeft, cursorTop++);
                     Console.WriteLine(result.Dequeue());
                 }
-                return;
+                return true;
             }
             else
             {
@@ -241,7 +206,7 @@ namespace Project_S
                     Console.SetCursorPosition(cursorLeft, cursorTop++);
                     Console.WriteLine(result.Dequeue());
                 }
-                return;
+                return false;
             }
         }
     }

@@ -25,7 +25,8 @@ namespace Project_S
         // 세이브 기능
         public void Save()
         {
-            SaveManager.GetInstance().saveData.Add(new PlayerMemento(playerList[0]));
+            playerList[0] = Scene.InGamePlayer;
+            SaveManager.GetInstance().saveData.Add(new PlayerMemento(Scene.InGamePlayer));
         }
 
         // 불러오기 기능
@@ -35,6 +36,7 @@ namespace Project_S
 
             player.level = state.level;
             player.job = state.job;
+            player.jobName = state.jobName;
             player.pos = state.pos;
             player.status = state.status;
             player.inventory = state.inventory;

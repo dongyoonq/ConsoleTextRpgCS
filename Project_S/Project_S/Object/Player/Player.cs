@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static Project_S.Weapon;
 
 namespace Project_S
 {
@@ -12,6 +13,7 @@ namespace Project_S
         public class PlayerState
         {
             public int level;
+            public string jobName;
             public Player.Job job;
             public Player.Pos pos;
             public Status status;
@@ -19,11 +21,12 @@ namespace Project_S
             public Dictionary<Item.ItemType, Equipment> wearingEquip;
             public List<Skill> skills;
 
-            public PlayerState(int level, Player.Job job, Player.Pos pos, Status status, 
+            public PlayerState(int level, Player.Job job, string jobName,  Player.Pos pos, Status status, 
                 Inventory inventory, Dictionary<Item.ItemType, Equipment> wearingEquip, List<Skill> skills)
             {
                 this.level = level;
                 this.job = job;
+                this.jobName = jobName;
                 this.pos = pos;
                 this.status = status;
                 this.inventory = inventory;
@@ -45,17 +48,19 @@ namespace Project_S
         }
 
         [Serializable]
+        [Flags]
         public enum Job
         {
-            None,
-            Warrior,
-            Mage,
-            Archer,
-            Thief
+            None = 0,
+            Warrior = 1 << 0,
+            Archer = 1 << 1,
+            Mage = 1 << 2,
+            Thief = 1 << 3,
+            All = Warrior | Archer | Mage | Thief
         }
 
         // 이벤트 정의
-        public delegate void EquipEventHandler(object sender, Equipment equipment, ref int cursorLeft, ref int cursorTop);
+        public delegate bool EquipEventHandler(Equipment equipment, ref int cursorLeft, ref int cursorTop);
         public static event EquipEventHandler EquipEvent;
         public static event EquipEventHandler UnEquipEvent;
 
@@ -64,6 +69,7 @@ namespace Project_S
         public int level = 1;       // 레벨
 
         public Job job = Job.None;  // 직업
+        public string jobName;
 
         private Pos _pos;
         public Pos pos { get { return _pos; } set { _pos = value; } }
@@ -79,6 +85,7 @@ namespace Project_S
         public Player(string name)
         {
             nickname = name;
+            jobName = GetJobType();
             _pos.x = 0; _pos.y = 0;
             status = new Status();
             status.MaxHp = 600;
@@ -117,22 +124,46 @@ namespace Project_S
 
         }
 
+        protected string GetJobType()
+        {
+            switch (job)
+            {
+                case Job.None:
+                    jobName = "초보자";
+                    break;
+                case Job.Warrior:
+                    jobName = "전사";
+                    break;
+                case Job.Archer:
+                    jobName = "궁수";
+                    break;
+                case Job.Mage:
+                    jobName = "법사";
+                    break;
+                case Job.Thief:
+                    jobName = "도적";
+                    break;
+            }
+
+            return jobName;
+        }
+
         /// <summary>
         /// 장비 착용 메서드
         /// </summary>
         /// <param name="equipment"></param>
-        public void Equip(Equipment equipment, ref int cursorLeft, ref int cursorTop)
+        public bool Equip(Equipment equipment, ref int cursorLeft, ref int cursorTop)
         {
-            EquipEvent?.Invoke(this, equipment, ref cursorLeft, ref cursorTop);
+            return EquipEvent.Invoke(equipment, ref cursorLeft, ref cursorTop) ? true : false;
         }
 
         /// <summary>
         /// 장비 벗는 메서드
         /// </summary>
         /// <param name="equipment"></param>
-        public void UnEquip(Equipment equipment, ref int cursorLeft, ref int cursorTop)
+        public bool UnEquip(Equipment equipment, ref int cursorLeft, ref int cursorTop)
         {
-            UnEquipEvent?.Invoke(this, equipment, ref cursorLeft, ref cursorTop);
+            return UnEquipEvent.Invoke(equipment, ref cursorLeft, ref cursorTop) ? true : false;
         }
 
         public void useItem(Item item)
@@ -173,6 +204,7 @@ namespace Project_S
     public class PlayerMemento : IMemento
     {
         private readonly string _name;
+        private readonly string _jobName;
         private readonly int _level;
         private readonly Player.Job _job;
         private readonly Player.Pos _pos;
@@ -184,6 +216,7 @@ namespace Project_S
         public PlayerMemento(Player player)
         {
             _name = player.nickname;
+            _jobName = player.jobName;
             _level = player.level;
             _job = player.job;
             _pos = player.pos;
@@ -206,7 +239,7 @@ namespace Project_S
 
         public Player.PlayerState GetPlayerState()
         {
-            return new Player.PlayerState(_level, _job, _pos, _status, _inventory, _wearingEquip, _skills);
+            return new Player.PlayerState(_level, _job, _jobName, _pos, _status, _inventory, _wearingEquip, _skills);
         }
     }
 }

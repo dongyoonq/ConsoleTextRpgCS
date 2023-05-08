@@ -23,7 +23,7 @@ namespace Project_S
 
         private enum Key
         {
-            Left, Right, Enter, Default
+            Left, Right, Enter,  Default
         }
 
         private enum State
@@ -53,6 +53,19 @@ namespace Project_S
                 case ConsoleKey.Enter:
                     InputManager.GetInstance().SetCommand(null);
                     keyDown = Key.Enter;
+                    break;
+                case ConsoleKey.Backspace:
+                    if (EquipmentUI.GetInstance().UnEquipFlag)
+                    {
+                        EquipmentUI.GetInstance().CompleteUnEquipSelect = -1;
+                        ReturnState();
+                    }
+                    else if (EquipmentUI.GetInstance().EquipFlag)
+                    {
+                        ReturnState();
+                        EquipmentUI.GetInstance().CompleteEquipSelect = -1;
+                        EquipmentUI.GetInstance().Restart();
+                    }
                     break;
                 default:
                     InputManager.GetInstance().SetCommand(null);
@@ -152,7 +165,11 @@ namespace Project_S
                         ReturnState();
                     }
                     else if (EquipmentUI.GetInstance().EquipFlag)
+                    {
+                        ReturnState();
                         EquipmentUI.GetInstance().CompleteEquipSelect = -1;
+                        EquipmentUI.GetInstance().Restart();
+                    }
                     break;
                 default:
                     break;

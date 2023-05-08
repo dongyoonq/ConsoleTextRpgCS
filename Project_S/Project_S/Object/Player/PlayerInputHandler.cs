@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Project_S.Player;
 
 namespace Project_S
 {
@@ -39,6 +40,15 @@ namespace Project_S
                     break;
                 case 'p':
                     player.AddItemToInventory(new HpPotion());
+                    break;
+                case '0':
+                    WarriorJobChange(player);
+                    break;
+                case '9':
+                    ArcherJobChange(player);
+                    break;
+                case '-':
+                    LevelUp(player);
                     break;
                 case '1':
                     InputInventory(gameState, player);
@@ -83,6 +93,41 @@ namespace Project_S
             UiState.GetInstance().SetUi("Setting");
             UiState.GetInstance().prevState = gameState;
             Game.GetInstance().ChangeState(UiState.GetInstance());
+        }
+
+        private void WarriorJobChange(Player player)
+        {
+            Warrior warrior = new Warrior(player.nickname);
+            warrior.level = player.level;
+            warrior.pos = player.pos;
+            warrior.status = player.status;
+            warrior.inventory = player.inventory;
+            warrior.wearingEquip = player.wearingEquip;
+            warrior.skills = player.skills;
+            warrior.status.MaxHp = 1600;
+            warrior.status.MaxMp = 50;
+            Scene.InGamePlayer = warrior;
+        }
+
+        private void ArcherJobChange(Player player)
+        {
+            Archer archer = new Archer(player.nickname);
+            archer.level = player.level;
+            archer.pos = player.pos;
+            archer.status = player.status;
+            archer.inventory = player.inventory;
+            archer.wearingEquip = player.wearingEquip;
+            archer.skills = player.skills;
+            archer.status.MaxHp = 1100;
+            archer.status.MaxMp = 100;
+            archer.skills.Add(new ExplosiveArrow());
+            archer.skills.Add(new TripleShot());
+            Scene.InGamePlayer = archer;
+        }
+
+        private void LevelUp(Player player)
+        {
+            player.level++;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Project_S
         Key keyDown;
 
         private int prevTop = 22;
-        private int prevLeft = 22;
+        private int prevLeft = 23;
         private bool select = false;
 
         private static InventorySelectState Inst;
@@ -27,7 +27,7 @@ namespace Project_S
 
         private enum State
         {
-            Yes = 22, No = 32,
+            Yes = 23, No = 33,
         }
 
         public override void Input()
@@ -52,6 +52,10 @@ namespace Project_S
                 case ConsoleKey.Enter:
                     InputManager.GetInstance().SetCommand(null);
                     keyDown = Key.Enter;
+                    break;
+                case ConsoleKey.Backspace:
+                    InventoryUI.GetInstance().CompleteSelect = -1;
+                    ReturnState();
                     break;
                 default:
                     InputManager.GetInstance().SetCommand(null);
@@ -155,7 +159,7 @@ namespace Project_S
 
             keyDown = Key.Default;
             prevTop = 22;
-            prevLeft = 22;
+            prevLeft = 23;
         }
     }
 }
