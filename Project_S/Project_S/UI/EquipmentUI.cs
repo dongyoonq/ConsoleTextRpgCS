@@ -45,8 +45,8 @@ namespace Project_S
 
         public override void Input()
         {
-            Console.CursorLeft = prevLeft;
-            Console.CursorTop = prevTop;
+            //Console.CursorLeft = prevLeft;
+            //Console.CursorTop = prevTop;
 
             var key = Console.ReadKey(true);
 
