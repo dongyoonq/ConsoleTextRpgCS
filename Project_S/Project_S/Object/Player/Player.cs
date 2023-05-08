@@ -191,6 +191,7 @@ namespace Project_S
             _inventory = player.inventory;
             _wearingEquip = player.wearingEquip;
             _skills = player.skills;
+
         }
 
         public string GetName()
