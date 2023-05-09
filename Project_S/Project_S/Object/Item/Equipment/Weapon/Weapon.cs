@@ -7,9 +7,9 @@ namespace Project_S
     [Serializable]
     abstract class Weapon : Equipment
     {
-        protected int attackPoint;
-        protected int magicPoint;
-        protected double attackSpeed;
+        public int attackPoint;
+        public int magicPoint;
+        public double attackSpeed;
         public WeaponType weaponType;
 
         protected Weapon()

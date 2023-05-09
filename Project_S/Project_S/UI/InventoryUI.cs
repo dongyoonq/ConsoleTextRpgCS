@@ -189,6 +189,8 @@ namespace Project_S
             // 현재 커서에 위치한 아이템에 대한 설명을 출력해준다.
             ExplanationItem();
 
+            ExplanationApplyStatus();
+
             // 플래그 상태정보에 따라 커서 위치에 다른 출력을 해준다.
             RenderFromFlagState();
 
@@ -372,6 +374,16 @@ namespace Project_S
             Console.ForegroundColor = ConsoleColor.Green;
             Console.SetCursorPosition(60, tileStartYSize);
             currPosItem.Explain(60, tileStartYSize);
+        }
+
+        private void ExplanationApplyStatus()
+        {
+            if (currPlayer.inventory.list.Count == 0 || currPosItem == null || currPosItem is not Equipment) { return; }
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.SetCursorPosition(60, tileStartYSize + 10);
+            Equipment equipment;
+            equipment = currPosItem as Equipment;
+            equipment.ShowApplyPredicateStatus(60, tileStartYSize + 10);
         }
 
         /// <summary>

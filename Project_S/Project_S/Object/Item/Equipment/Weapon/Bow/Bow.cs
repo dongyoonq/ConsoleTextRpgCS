@@ -35,6 +35,10 @@ namespace Project_S
             player.status.AttackSpeed = 1.0;
         }
 
+        public override void ShowApplyPredicateStatus(int CursorXPos, int CursorYPos)
+        {
+        }
+
         public override void ShowApplyStatus(int CursorXPos, int CursorYPos)
         {
 

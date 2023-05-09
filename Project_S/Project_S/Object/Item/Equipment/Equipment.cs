@@ -13,5 +13,6 @@ namespace Project_S
         public abstract void ApplyStatusModifier(Player player);
         public abstract void RemoveStatusModifier(Player player);
         public abstract void ShowApplyStatus(int CursorXPos, int CursorYPos);
+        public abstract void ShowApplyPredicateStatus(int CursorXPos, int CursorYPos);
     }
 }

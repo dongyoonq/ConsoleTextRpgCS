@@ -19,7 +19,7 @@ namespace Project_S
         {
             uiName = "Default";
             if (PlayerManager.GetInstance().playerList.Count != 0)
-                currPlayer = PlayerManager.GetInstance().playerList[0];
+                currPlayer = Scene.InGamePlayer;
 
             return Inst ??= new UI();
         }

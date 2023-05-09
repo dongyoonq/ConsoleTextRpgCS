@@ -252,7 +252,10 @@ namespace Project_S
         {
             Player player = new Player(this.name);
             if(PlayerManager.GetInstance().playerList.Count > 0)
+            {
                 PlayerManager.GetInstance().playerList[0] = player;
+                InGamePlayer = player;
+            }
             else
                 PlayerManager.GetInstance().playerList.Add(player);
             EventManager.GetInstance().OnPlayerInputEventAdd();
