@@ -32,7 +32,7 @@ namespace Project_S
         public int CompleteUnEquipSelect = 0;
         public int CompleteEquipSelect = 0;
 
-        private Item currPosItem;
+        private Equipment currPosItem;
         public Item.ItemType currPosType;
         public GameState tempState;
 
@@ -296,6 +296,8 @@ namespace Project_S
             // 현재 커서에 위치한 장비에 대한 설명 출력
             ExplanationEquipment();
 
+            ExplanationApplyStatus();
+
             Console.ForegroundColor = ConsoleColor.White;
             Console.SetCursorPosition(24, tileEndYSize + 9);
 
@@ -504,6 +506,14 @@ namespace Project_S
             Console.ForegroundColor = ConsoleColor.Green;
             Console.SetCursorPosition(36, tileStartYSize + 1);
             currPosItem.Explain(36, tileStartYSize + 1);
+        }
+
+        private void ExplanationApplyStatus()
+        {
+            if (currPlayer.wearingEquip.Count == 0 || currPosItem == null) { return; }
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.SetCursorPosition(36, tileStartYSize + 10);
+            currPosItem.ShowApplyStatus(36, tileStartYSize + 10);
         }
     }
 }

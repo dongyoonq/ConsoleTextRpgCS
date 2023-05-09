@@ -35,6 +35,11 @@ namespace Project_S
             player.status.AttackSpeed = 1.0;
         }
 
+        public override void ShowApplyStatus(int CursorXPos, int CursorYPos)
+        {
+
+        }
+
         public override void use()
         {
             Console.WriteLine($"{this.name}을 쏜다.");

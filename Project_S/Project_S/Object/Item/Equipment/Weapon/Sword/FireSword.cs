@@ -52,6 +52,23 @@ namespace Project_S
             player.status.AttackSpeed = 1.0;
         }
 
+        public override void ShowApplyStatus(int CursorXPos, int CursorYPos)
+        {
+            string[] explain =
+            {
+                $"※ 적용 능력치※",
+                "",
+                $"공격력 : {Scene.InGamePlayer.status.AttackPoint}({Scene.InGamePlayer.status.AttackPoint - attackPoint} + {attackPoint})",
+                $"공격속도 : {Scene.InGamePlayer.status.AttackSpeed}({attackSpeed})",
+            };
+
+            foreach (string exp in explain)
+            {
+                Console.WriteLine(exp);
+                Console.SetCursorPosition(CursorXPos, ++CursorYPos);
+            }
+        }
+
         public override void use()
         {
             Console.WriteLine($"{this.name}을 휘두른다.");
