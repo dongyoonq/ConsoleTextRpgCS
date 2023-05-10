@@ -12,6 +12,7 @@ namespace Project_S
         // 플레이어 상태 클래스
         public class PlayerState
         {
+            public string nickName;
             public int level;
             public string jobName;
             public Player.Job job;
@@ -21,9 +22,10 @@ namespace Project_S
             public Dictionary<Item.ItemType, Equipment> wearingEquip;
             public List<Skill> skills;
 
-            public PlayerState(int level, Player.Job job, string jobName,  Player.Pos pos, Status status, 
+            public PlayerState(string nickName, int level, Player.Job job, string jobName,  Player.Pos pos, Status status, 
                 Inventory inventory, Dictionary<Item.ItemType, Equipment> wearingEquip, List<Skill> skills)
             {
+                this.nickName = nickName;
                 this.level = level;
                 this.job = job;
                 this.jobName = jobName;
@@ -67,6 +69,7 @@ namespace Project_S
         // 프로퍼티
         public string nickname;     // 닉네임
         public int level = 1;       // 레벨
+        public int Hp, Mp;
 
         public Job job = Job.None;  // 직업
         public string jobName;
@@ -88,9 +91,14 @@ namespace Project_S
             jobName = GetJobType();
             _pos.x = 0; _pos.y = 0;
             status = new Status();
+            status.AttackPoint = 50;
+            status.MagicPoint = 30;
             status.MaxHp = 600;
             status.MaxMp = 30;
-            status.AttackPoint = 50;
+            Hp = status.MaxHp;
+            Mp = status.MaxMp;
+            status.AttackSpeed = 1;
+            status.Defense = 50;
             skills = new List<Skill>();
             inventory = new Inventory();
             wearingEquip = new Dictionary<Item.ItemType, Equipment>();
@@ -239,7 +247,7 @@ namespace Project_S
 
         public Player.PlayerState GetPlayerState()
         {
-            return new Player.PlayerState(_level, _job, _jobName, _pos, _status, _inventory, _wearingEquip, _skills);
+            return new Player.PlayerState(_name, _level, _job, _jobName, _pos, _status, _inventory, _wearingEquip, _skills);
         }
     }
 }

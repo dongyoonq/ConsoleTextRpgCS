@@ -34,6 +34,7 @@ namespace Project_S
         {
             Player.PlayerState state = memento.GetPlayerState();
 
+            player.nickname = state.nickName;
             player.level = state.level;
             player.job = state.job;
             player.jobName = state.jobName;

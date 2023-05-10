@@ -11,12 +11,20 @@ namespace Project_S
 {
     public class StatusUI : UI
     {
-        public int prevTop;
+        public int prevTop = (int)StatusPos.Strength;
 
         public const int tileStartXSize = 16;
         public const int tileStartYSize = 4;
-        public const int tileEndYSize = 16;
+        public const int tileEndYSize = 21;
         Key keyDown;
+
+        public enum StatusPos
+        {
+            Strength = 18,
+            Dexterity = 19,
+            Intelligence = 20,
+            Luck = 21,
+        }
 
         public enum Key
         {
@@ -86,10 +94,10 @@ namespace Project_S
             switch (keyDown)
             {
                 case Key.Up:
-                    prevTop = Console.GetCursorPosition().Top - 1;
+                    prevTop = Console.GetCursorPosition().Top;
                     break;
                 case Key.Down:
-                    prevTop = Console.GetCursorPosition().Top + 1;
+                    prevTop = Console.GetCursorPosition().Top;
                     break;
                 case Key.Enter:
                     break;
@@ -97,6 +105,10 @@ namespace Project_S
                     return;
             }
 
+            if (prevTop <= (int)StatusPos.Strength)
+                prevTop = (int)StatusPos.Strength;
+            else if (prevTop >= (int)StatusPos.Luck)
+                prevTop = (int)StatusPos.Luck;
         }
 
         /// <summary>
@@ -132,7 +144,7 @@ namespace Project_S
             // 플래그 상태정보에 따라 커서 위치에 다른 출력을 해준다.
             RenderFromFlagState();
 
-            Console.SetCursorPosition(0, 0);
+            Console.SetCursorPosition(0, prevTop);
         }
 
         /// <summary>
@@ -162,6 +174,51 @@ namespace Project_S
 
         private void ShowPlayerStatusInformation()
         {
+            int startPos = tileStartYSize + 1;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.SetCursorPosition(10, startPos++);
+            Console.WriteLine($" [ 이름 : {currPlayer.nickname} ]");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(10, ++startPos);
+            Console.WriteLine($" 레벨 : {currPlayer.level}");
+            Console.SetCursorPosition(10, ++startPos);
+            Console.WriteLine($" 공격력 : {currPlayer.status.AttackPoint}");
+            Console.SetCursorPosition(10, ++startPos);
+            Console.WriteLine($" 주문력 : {currPlayer.status.MagicPoint}");
+            Console.SetCursorPosition(10, ++startPos);
+            Console.WriteLine($" 공격속도 : {currPlayer.status.AttackSpeed}");
+            Console.SetCursorPosition(10, ++startPos);
+            Console.WriteLine($" 체력 : {currPlayer.Hp}/{currPlayer.status.MaxHp}");
+            Console.SetCursorPosition(10, ++startPos);
+            Console.WriteLine($" 마나 : {currPlayer.Mp}/{currPlayer.status.MaxMp}");
+            Console.SetCursorPosition(10, ++startPos);
+            Console.WriteLine($" 방어력 : {currPlayer.status.Defense}");
+            startPos += 3;
+            Console.SetCursorPosition(10, ++startPos);
+            Console.Write($" 힘　 : {currPlayer.status.Strength}");
+            if (prevTop == (int)StatusPos.Strength)
+            { Console.ForegroundColor = ConsoleColor.Magenta; Console.WriteLine($"  ▲"); Console.ForegroundColor = ConsoleColor.White; }
+            else
+                Console.WriteLine($"  ▲");
+            Console.SetCursorPosition(10, ++startPos);
+            Console.Write($" 민첩 : {currPlayer.status.Dexterity}");
+            if (prevTop == (int)StatusPos.Dexterity)
+            { Console.ForegroundColor = ConsoleColor.Magenta; Console.WriteLine($"  ▲"); Console.ForegroundColor = ConsoleColor.White; }
+            else
+                Console.WriteLine($"  ▲");
+            Console.SetCursorPosition(10, ++startPos);
+            Console.Write($" 지능 : {currPlayer.status.Intelligence}");
+            if (prevTop == (int)StatusPos.Intelligence)
+            { Console.ForegroundColor = ConsoleColor.Magenta; Console.WriteLine($"  ▲"); Console.ForegroundColor = ConsoleColor.White; }
+            else
+                Console.WriteLine($"  ▲");
+            Console.SetCursorPosition(10, ++startPos);
+            Console.Write($" 행운 : {currPlayer.status.Luck}");
+            if (prevTop == (int)StatusPos.Luck)
+            { Console.ForegroundColor = ConsoleColor.Magenta; Console.WriteLine($"  ▲"); Console.ForegroundColor = ConsoleColor.White; }
+            else
+                Console.WriteLine($"  ▲");
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.SetCursorPosition(tileStartXSize - 6, tileEndYSize + 3);
             Console.WriteLine($"※ 스텟 포인트 : {currPlayer.status.StatusPoint}");
         }
