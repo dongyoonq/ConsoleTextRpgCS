@@ -18,5 +18,7 @@ namespace Project_S
         public int Intelligence { get; set; }
         public int Luck { get; set; }
         public double Exp { get; set; }
+
+        public int StatusPoint { get; set; }
     }
 }

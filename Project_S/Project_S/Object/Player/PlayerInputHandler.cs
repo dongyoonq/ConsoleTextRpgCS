@@ -57,7 +57,7 @@ namespace Project_S
                     InputEquipment(gameState, player);
                     break;
                 case '3':
-
+                    InputStatus(gameState, player);
                     break;
                 case '4':
                 case '5':
@@ -82,6 +82,15 @@ namespace Project_S
             Console.Clear();
             UI.currPlayer = player;
             UiState.GetInstance().SetUi("Equipment");
+            UiState.GetInstance().prevState = gameState;
+            Game.GetInstance().ChangeState(UiState.GetInstance());
+        }
+
+        private void InputStatus(GameState gameState, Player player)
+        {
+            Console.Clear();
+            UI.currPlayer = player;
+            UiState.GetInstance().SetUi("Status");
             UiState.GetInstance().prevState = gameState;
             Game.GetInstance().ChangeState(UiState.GetInstance());
         }

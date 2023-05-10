@@ -26,6 +26,10 @@ namespace Project_S
                 return false;
             AddUi("Equipment", EquipmentUI.GetInstance());
 
+            if (!StatusUI.GetInstance().Init())
+                return false;
+            AddUi("Status", StatusUI.GetInstance());
+
             if (!SettingUI.GetInstance().Init())
                 return false;
             AddUi("Setting", SettingUI.GetInstance());
